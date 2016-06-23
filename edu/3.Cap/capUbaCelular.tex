@@ -1,0 +1,242 @@
+\chapter{Habituação e sensibilização: UBA inspirada em comportamento celular (UBA-HS)}
+
+Os circuitos neurais subjacentes à aquisição de memória e aprendizagem foram estudados por Kandel, ganhador do Prêmio Nobel em Fisiologia ou Medicina em 2000. Uma parte importante dos seus estudos tratou do mapeamento dos processos neurais do sistema nervoso de organismos simples. O animal escolhido por Kandel para suas pesquisas foi o \textit{Aplysia californica}~\cite{kandel06}.
+
+A ideia central de Kandel era simular nas células nervosas da aplísia os padrões de estimulação sensorial que Pavlov havia empregado em seus experimentos com aprendizagem, traduzindo, assim, esses protocolos comportamentais em protocolos biológicos. Afinal de contas, a habituação, a sensibilização e o condicionamento clássico --- os três protocolos de aprendizagem descritos por Pavlov --- constituem, essencialmente, séries de instruções sobre a forma como um estímulo sensorial deve ser apresentado, sozinho ou em combinação com outro estímulo sensorial, para produzir aprendizagem. Assim, conseguiu produzir, nos caminhos neurais da aplísia, padrões de atividade similares aos que são apresentados por animais submetidos a treinamento nessas três tarefas de aprendizagem. Foi possível determinar, então, de que maneira as conexões sinápticas são modificadas pelos padrões de estímulos que simulam diferentes formas de aprendizagem~\cite{kandel06}.
+
+Kandel optou pelo reflexo de retração da guelra como o comportamento a ser estudado. A guelra é um órgão externo utilizado pela aplísia para respirar. Esse órgão situa-se numa cavidade da parede corporal denominada cavidade do manto e fica encoberto por uma lâmina de pele que é chamada de prega no manto. A prega do manto termina no sifão, um tubo que expele água e resíduos da cavidade do manto. Basicamente, para gerar a habituação, kandel provoca um toque (evento não nocivo) no sifão, o que provoca a retração defensiva da guelra. No entanto, com a repetição deste estímulo, gradativamente a intensidade da retração da guelra diminui: o animal se habitua ao estímulo. O efeito da habituação pode durar de minutos a semanas dependendo da dinâmica das seções de treinamento, gerando um aprendizado de curto ou de longo prazo. Para a sensibilização, Kandel aplica um choque (estímulo nocivo) à cauda do aplísia. Nesta nova situação, seguindo-se um toque no sifão (evento não nocivo) a retração da guelra ocorre numa intensidade muito maior. Este efeito também pode durar de alguns minutos a semanas de acordo com a dinâmica do treinamento. Assim, diante de um único evento (toque no sifão), três diferentes respostas podem ocorrer: normal (para animais não treinados); habituada (de curto ou longo prazos) quando o animal toma o estímulo como ruído; e sensibilizada (de curto ou longo prazos) quando o animal toma o estímulo como sinal~\cite{kandel06, kandel00, kandel06a, kandel06b, kandel01, kandel70}.
+
+\section{Modelagem semiótica da UBA-HS: passos 1 ao 5 do MTS}
+
+\subsection{Passo 1: análise preliminar}
+
+Os fenômenos de habituação e sensibilização são essenciais ao desenvolvimento do aplísia. A habituação permite que o comportamento do animal adquira foco. O animal imaturo quase sempre responde com exagero a estímulos não ameaçadores. Habituar-se a tais estímulos faz com que o animal se concentre em estímulos realmente importantes para a organização de sua percepção e, consequentemente, para sua sobrevivência. Por outro lado, a sensibilização é a imagem espelhada  da habituação e tem por função fazer com que o animal, após ser exposto a um estímulo verdadeiramente ameaçador, tenha respostas acentuadas a qualquer estímulo, mesmo os não nocivos. É uma espécie de medo aprendido que aumenta o nível de atenção do animal em contextos específicos~\cite{kandel06}.
+
+A capacidade de aprendizagem implícita da aplísia através dos processos neurais de habituação e sensibilização apontam para um sistema bastante eficaz de reconhecimento de signo e ruído, o que permite ao animal transitar em seu ambiente dirigindo a atenção para eventos realmente relevantes a cada momento. Analogamente, há vários sistemas humanos nos quais a identificação de eventos relevantes, ou informação útil (signos) dentre uma infinidade de eventos aleatórios com baixa diferenciação, ou informação inútil (ruídos) é uma questão de difícil solução: prospecção de informação em grandes volumes de dados (\textit{big data})~\cite{zikopoulos12}, detecção de terremotos~\cite{silver13}, segurança de software~\cite{singer14}, entre outras, poderiam se beneficiar de um sistema eficiente que consiga aprender a reconhecer quando um determinado \textit{input} deve ser considerado ou não. Esta analogia, diferenciação entre signo e ruído como função a ser transposta, aponta para algumas possibilidades interessantes no desenvolvimento de softwares inspirados no algoritmo biológico subjacente às capacidades de aprendizagem da aplísia.
+
+\subsection{Passo 2: definição da arquitetura de subordinação}
+
+Levando-se em conta as percepções e ações envolvidas nos experimentos de Kandel, três camadas de subordinação são reconhecidas no fenômeno de habituação e sensibilização da aplísia. Primeiramente, existe uma camada de comportamento normal relacionada às percepções e ações básicas. Acima desta camada encontra-se a camada de habituação que modula e prevalece à primeira e, finalmente, uma terceira camada, a da sensibilização que também modula a camada de comportamento normal e prevalece a ela e também à camada de habituação (Fig~\ref{0301subordinacaoaplisia-eps-converted-to}).
+
+\figLatHere[0.6]{\eduPastaFig}{0301subordinacaoaplisia-eps-converted-to}{Arquitetura de subordinação abstraída dos fenômenos de habituação e sensibilização do \textit{Aplysia californica}.}
+
+\subsection{Passo 3: definição do nível focal}
+
+Os estudos de Kandel procuram reconhecer os caminhos neurais subjacentes aos comportamentos de habituação e sensibilização da aplísia, desta forma, a própria ação de Kandel aponta para o nível focal em questão, ou seja, o nível celular e de suas organelas. Consequentemente, o nível inferior ou micro-semiótico, iniciador dos processos, é o nível molecular e o nível superior ou macro-semiótico, que apresenta as restrições naturais, é o nível do organismo~\cite{kandel06, kandel00} (Fig~\ref{0302nivelfocalaplisia-eps-converted-to}).
+
+\figLatHere[0.6]{\eduPastaFig}{0302nivelfocalaplisia-eps-converted-to}{Representação dos níveis hierárquicos abstraídos dos fenômenos de habituação e sensibilização do \textit{Aplysia californica}.}
+
+\subsection{Passo 4: levantamento das semioses relevantes}
+
+Heuristicamente, são considerados aqui os seguintes neurônios como responsáveis pelas semioses que atuam nos processos de habituação e sensibilização da aplísia: neurônio sensor do sifão, neurônio motor da guelra e interneurônio facilitador. No entanto, como a maioria dos processos essenciais relativos ao fenômeno em estudo ocorrem em subpartes do neurônio sensor do sifão, para a maioria das semioses levantadas, não é considerado o neurônio global como a entidade biológica responsável, mas sim uma de suas subpartes. Mais especificamente, considera-se que apenas as semioses S3 e S8 (abaixo) ocorrem por ação global de neurônios (respectivamente, neurônio motor da guelra e interneurônio facilitador), para todas as outras, consideram-se subpartes do neurônio sensor do sifão como entidades biológicas responsáveis.
+
+Assim, seguem abaixo as descrições das semioses relevantes encontradas no nível focal referentes aos fenômenos de habituação e sensibilização do \textit{Aplysia californica}, e estão divididas segundo a arquitetura de subordinação definida no passo 2.
+
+\subsubsection*{Camada de comportamento normal}
+
+Esta camada comportamental pode ser representada heuristicamente por cinco semioses relevantes: S1, S2 e S3 correspondem à cadeia semiótica básica e as semioses S4 e S5 à modulação desta cadeia.
+
+\begin{itemize}
+
+	\item \textbf{Semiose 1 - Mecanismo de disparo do neurônio sensor do sifão}
+
+	Decorre do toque no sifão a possibilidade de se instalar o processo de retração da guelra. Neste instante, há um rearranjo dos íons através dos canais iônicos da zona de disparo do neurônio sensor. Se este rearranjo, de configuração condizente com a intensidade do toque, for suficiente para que o limiar do potencial de repouso seja rompido (-55 mV), instala-se o processo, caso contrário, nada ocorre.
+
+	Em termos semióticos (tríade Objeto/Signo/Interpretante) tem-se: o rompimento do limiar como o sinal perceptivo que designa o objeto (O), o rearranjo nos íons como objeto percebido que designa o signo (S) e o potencial de ação resultante como sinal operacional que designa o interpretante (I)~\cite{kandel06, kandel00, lent01}.
+
+	\figLatHere[0.6]{\eduPastaFig}{0303s1-eps-converted-to}{Características da semiose S1.}
+
+	A zona de disparo é a entidade biológica responsável pela primeira semiose que dá origem à cadeia semiótica que se instala no nível focal. Ela deve: 1. Interpretar se um estímulo é suficientemente forte para gerar um potencial de ação; e 2. Calibrar o potencial de ação eventualmente gerado, de acordo com a intensidade do toque. No caso dos experimentos de Kandel, os toques ocorrem sempre com intensidades semelhantes, tornando esta primeira entidade interpretadora responsável apenas pela primeira de suas atribuições, ou seja, interpretar se houve ou não o alcance do limiar. Trata-se de uma interpretação binária.
+
+	Na continuidade do processo em direção à semiose
+	%S2\nomenclature{S1 a S10}{Semioses S1 a S10},
+	vale ressaltar o caráter heurístico deste passo. Após o primeiro potencial de ação na zona de disparo do neurônio sensor do sifão, ocorrem sucessivos novos potenciais de ação ao longo do axônio até que seja atingida a zona ativa no terminal do mesmo neurônio. Esta cadeia de potenciais de ação apenas transmite as características do primeiro potencial, são apenas repetições necessárias devido às características físicas do axônio (comprimento), não se tratando de novas semiose no sentido qualitativo.
+
+	Desta forma, tais semioses não são consideradas na composição do modelo semiótico para o fenômeno em estudo. Como destacado anteriormente, este passo também tem a função de eliminar semioses não relevantes para a abstração do algoritmo biológico.
+
+	A Fig~\ref{0303s1-eps-converted-to} refere-se às características da semiose S1.
+
+	\item \textbf{Semiose 2 - Mecanismo de exocitose}
+
+		\figLatHere[0.6]{\eduPastaFig}{0304s2-eps-converted-to}{Características da semiose S2.}
+
+	Quando o potencial de ação atinge a zona ativa do axônio do neurônio sensor do sifão, ocorre uma semiose qualitativamente diferente das anteriores. A zona ativa é rica em canais de $Ca^{++}$, dependentes de voltagem, desta forma ocorre um grande fluxo de íons para o interior da membrana, provocando o fenômeno da exocitose que é a fusão da membrana das vesículas com a face interna da membrana do terminal sináptico. Assim as moléculas neurotransmissoras (glutamato) são liberadas na fenda sináptica.
+
+	A quantidade de neurotransmissores
+	%(Qn\nomenclature{Qn}{Quantidade de neurotransmissores})
+	que participa da exocitose é proporcional à frequência de PA que chega à zona ativa e às quantidades: 1. De vesículas mobilizadas
+	%(Qv\nomenclature{Qv}{Quantidade de vesículas mobilizadas});
+	e 2. De conexões sinápticas disponíveis
+	%(Qs\nomenclature{Qs}{Quantidade de conexões sinápticas disponíveis}).
+	Como a frequência de PA é proporcional à intensidade do estímulo inicial na zona de disparo e, no trabalho de Kandel, esta intensidade é sempre a mesma, a quantidade de neurotransmissores que participa da exocitose pode ser considerada determinada apenas pelos valores de Qv e Qs (Qn = Qv * Qs), influências respectivas de S4 e S5, abaixo.
+
+	Em síntese: o PA atua como objeto
+	%(O\nomenclature{O, S e I}{Respectivamente, objeto, signo e interpretante}
+	para esta nova semiose cujo signo (S) é o fluxo de grande quantidade de íons $Ca^{++}$ para o interior da célula resultando na exocitose (I)~\cite{kandel06, kandel00, lent01}.
+
+	A Fig~\ref{0304s2-eps-converted-to} refere-se às características da semiose S2.
+
+	\item \textbf{Semiose 3 - Mecanismo motor}
+
+	\figLatHere[0.6]{\eduPastaFig}{0305s3-eps-converted-to}{Características da semiose S3.}
+
+	De maneira heurística, a semiose S3 é considerada aqui como resultado da atuação global do neurônio motor da guelra e não de suas subpartes. Assim, o glutamato na fenda sináptica é captado pelos receptores do neurônio motor da guelra e se apresenta como objeto (O) de uma terceira semiose. Isto provoca uma configuração orgânica específica neste neurônio (S), provocando reações físicas na região de inervação da guelra (I) resultando  em retração. A retração será tão forte quanto for a quantidade de glutamato na fenda sináptica~\cite{kandel06,kandel00}.
+
+	A Fig~\ref{0305s3-eps-converted-to} refere-se às características da semiose S3.
+
+	\item \textbf{Semiose 4 - Mecanismo de endocitose}
+
+	A exocitose esvazia as vesículas de glutamato na zona ativa do neurônio sensor do sifão. Então, um mecanismo oposto, a endocitose, instala-se na mesma região restaurando tais vesículas. Assim, o esvaziamento das vesículas (O) provoca uma configuração orgânica específica na zona ativa (S) cujo resultado é a recomposição das vesículas (endocitose) (I).
+
+		\figLatHere[0.6]{\eduPastaFig}{0306s4-eps-converted-to}{Características da semiose S4.}
+
+	A quantidade de vesículas (Qv) que estará disponível para a próxima exocitose é modulada pelo histórico dos eventos mediadores e moduladores que levam à habituação e sensibilização de curto prazo, ou é modulada pela ausência desses eventos, mantendo ou ajustando Qv para valores compatíveis com o comportamento normal~\cite{kandel06,kandel00}.
+
+	A semiose S4 atua como moduladora da semiose S2 restabelecendo as vesículas de glutamato que estarão disponíveis quando houver uma nova exocitose. As condições de habituação e sensibilização determinam se a próxima reação do sistema frente a um novo toque no sifão ocorrerá em intensidade mais alta ou mais baixa.
+
+	A Fig~\ref{0306s4-eps-converted-to} refere-se às características da semiose S4.
+
+	\item \textbf{Semiose 5 - Mecanismo construtor}
+
+	Este mecanismo regula a quantidade de conexões interneurônios (Qs) e contribui para a instalação da memória de longo prazo tanto para a habituação quanto para a sensibilização, e ocorre através de processos localizados em todo o neurônio sensor do sifão. Seu objeto (O) é a presença de certa concentração proteica específica que conduz a novas configurações orgânicas (S). O aumento ou diminuição do número de conexões é o interpretante (I) desta semiose.
+
+			\figLatHere[0.6]{\eduPastaFig}{0307s5-eps-converted-to}{Características da semiose S5.}
+
+	A quantidade de conexões sinápticas (Qs) que estará disponível para a próxima exocitose é modulada pelo histórico dos eventos mediadores e moduladores que levam à habituação e sensibilização de longo prazo; ou é modulada pela ausência desses eventos, mantendo ou ajustando Qs para valores compatíveis com o comportamento normal~\cite{kandel06,kandel00}.
+
+	A semiose S5 também atua como moduladora da semiose S2 aumentando ou diminuindo a quantidade de conexões entre os neurônios sensor do sifão e motor da cauda. O histórico de eventos, aqui, determina o tempo de persistência dos comportamentos de habituação de sensibilização.
+
+	A Fig~\ref{0307s5-eps-converted-to} refere-se às características da semiose S5.
+
+\end{itemize}
+
+\subsubsection*{Camada de habituação}
+
+Esta camada comportamental pode ser representada heuristicamente por duas semioses relevantes:
+
+\begin{itemize}
+	\item \textbf{Semiose 6 - Mecanismo de habituação de curto prazo}
+
+	\figLatHere[0.6]{\eduPastaFig}{0308s6-eps-converted-to}{Características da semiose S6.}
+
+	Quando um novo estímulo não prejudicial é aplicado ao sifão da aplísia, o animal não treinado responde com a retração da guelra num reflexo de proteção ou atenção. Este novo estímulo é tomado pelo animal como algo potencialmente prejudicial. Porém, com a repetição de tal estímulo, a aplísia tende a diminuir sua reação até ignorá-lo. Isto se dá devido ao enfraquecimento da efetividade da transmissão sináptica por parte do neurônio sensor, através da diminuição da quantidade de neurotransmissores liberados nos terminais pré-sinápticos do neurônio sensor. O mecanismo responsável por essa diminuição na liberação de neurotransmissores ainda não é bem conhecido, acredita-se, porém, que tal fato seja devido à redução da mobilização de vesículas na zona ativa~\cite{kandel06, kandel00}.
+
+	Para se gerar uma habituação de curto prazo, que persiste por alguns minutos, aplicam-se ao animal 10 estímulos numa única sessão. Após esta sessão, percebe-se que a intensidade da resposta é um vigésimo do original.  Pode-se considerar, então, que o fenômeno de habituação de curto prazo atua no sentido de diminuir a quantidade de neurotransmissores disponíveis na zona ativa através da diminuição das vesículas disponíveis. Quando ocorre um estímulo, a exocitose disponibiliza uma quantidade menor de glutamato. E este ajuste ocorre a uma taxa de 0,05, após o décimo estímulo.
+
+	Em síntese: o objeto (O) desta semiose é a exocitose de glutamato. A reconfiguração orgânica na zona ativa do neurônio sensor (S) provoca uma ação de habituação de curto prazo (I) e o consequente ajuste da taxa de vesículas a menor na semiose 4, acima~\cite{kandel06, kandel00}. Isto ocorre a uma taxa de ajuste de habituação de curto prazo
+	%(Thc\nomenclature{Thc}{Taxa de ajuste de habituação de curto prazo}).
+
+	A Fig~\ref{0308s6-eps-converted-to} refere-se às características da semiose S6.
+
+	\item \textbf{Semiose 7 - Mecanismo de habituação de longo prazo}
+
+	Com quatro sessões de 10 estímulos separadas por algumas horas ou um dia a habituação passa de curto para longo prazo. Além da diminuição de vesículas liberadas em cada sinapse, a habituação de longo prazo também apresenta diminuição da quantidade de sinapses, ou seja, além de mudanças funcionais ocorrem alterações estruturais. Nesta situação, o número de terminais ativos diminui de 500 para 100. Para a habituação de longo prazo, que persiste por semanas, são necessárias quatro sessões de 10 estímulos separadas por algumas horas ou um dia.
+
+	Como adiantado, os mecanismos subjacentes à habituação ainda não são totalmente reconhecidos. Portanto, por conveniência, infere-se aqui que tanto S6 quanto S7 ocorrem por ação do mesmo sinal perceptivo, a frequência com a qual o reservatório de glutamato se esvazia. Porém, cada uma delas deve apresentar rearranjos orgânicos próprios promovendo diferentes ações, no caso da habituação de curto prazo, atua na modulação da semiose S4 ajustando a menor a Qv; na habituação de longo prazo, por outro lado, a ação atua na modulação de S5 promovendo a diminuição de conexões ou Qs.
+
+	Em síntese: certa frequência de exocitoses de glutamato
+	%(Fg\nomenclature{Fg}{Frequência de exocitoses de glutamato})
+	é o objeto (O) desta semiose, resultando numa certa reconfiguração orgânica (S) o que provoca uma ação de habituação de longo prazo (I) e o consequente ajuste de Qs menor na semiose 5 (I), acima~\cite{kandel06,kandel00}. Isto ocorre a uma taxa de ajuste de habituação de longo prazo
+	%(Thl\nomenclature{Thl}{Taxa de ajuste de habituação de longo prazo}).
+
+	A Fig~\ref{0309s7-eps-converted-to} refere-se às características da semiose S7.
+
+	\figLatHere[0.6]{\eduPastaFig}{0309s7-eps-converted-to}{Características da semiose S7.}
+
+\end{itemize}
+
+\subsubsection*{Camada de sensibilização}
+Esta camada comportamental pode ser representada heuristicamente por três semioses relevantes:
+
+\begin{itemize}
+	\item \textbf{Semiose 8 - Mecanismo de disparo do interneurônio facilitador}
+
+	O choque na cauda provoca reações no interneurônio facilitador que conecta o neurônio sensor da cauda ao neurônio sensor do sifão modulando a ação deste último. O objeto (O) desta semiose é a presença de potencial de ação na zona ativa do interneurônio facilitador, isto provoca uma reconfiguração orgânica na zona ativa (S) resultando na exocitose de serotonina na fenda sináptica (I).
+
+	A quantidade de serotonina é proporcional à intensidade do choque, porém como Kandel realiza o experimento com intensidade controlada e sempre igual, considera-se aqui que as exocitoses ocorrem sempre com a mesa descarga de serotonina~\cite{kandel06,kandel00, lent01}. Esta semiose é muito semelhante à S1 com a diferença que S1 ocorre no circuito mediador e S8 ocorre por ação do circuito modulatório.
+
+	A Fig~\ref{0310s8-eps-converted-to} refere-se às características da semiose S8.
+
+	\figLatHere[0.6]{\eduPastaFig}{0310s8-eps-converted-to}{Características da semiose S8.}
+
+	\item \textbf{Semiose 9 - Mecanismo sensibilização de curto prazo}
+
+	A descarga de serotonina na sinapse axoaxônica entre o interneurônio facilitador e o neurônio sensor do sifão é responsável tanto pela sensibilização de curto prazo quanto pela sensibilização de longo prazo.
+
+	Os mecanismos subjacentes à sensibilização são mais bem conhecidos do que aqueles que se relacionam com a habituação. Esses mecanismos são postos em funcionamento por várias semioses. A serotonina (5-HT - hidroxitriptamina) liberada na sinapse é captada por dois tipos de receptores.
+
+	O primeiro deles está associado à proteína G (Gs) que, através de sua sub-unidade alfa, ativa a enzima adenilciclase (AC) da membrana. A adenilciclase converte a adenosina trifostato (ATP) em adenosina monofostato cíclica (AMPc), aumentando assim sua concentração no terminal do neurônio sensor do sifão. Posteriormente a AMPc é desativada por ação da enzima fosfodiesterase; A AMPc ativa a proteína AMPc-dependente quinase A conectando-se à sua subunidade regulatória inibitória, deste modo liberando sua sub-unidade catalítica ativa. Esta sub unidade atua através de 3 caminhos: 1. A quinase A facilita a mobilização de vesículas de glutamato aumentando sua disponibilidade; 2. a quinase A abre canais de $Ca^{++}$ aumentando o influxo de $Ca^{++}$ prolongando o PA; e 3. a quinase A fosforila canais de potássio ($K^+$). Isto diminui a corrente $K^+$ também prolongando o PA.
+
+	\figLatHere[0.6]{\eduPastaFig}{0311s9-eps-converted-to}{Características da semiose S9.}
+
+	A serotonina atuando num segundo receptor conecta-se a outra proteína G (Go) que ativa a fosfolipase C (PLC) que estimula a o diacilglicerol intramembrana a ativar a proteína quinase C. A quinase C atua juntamente com a quinase A nos caminhos 1 e 2 acima.
+
+	Conforme abordado anteriormente, a consideração de toda essa complexidade de semioses seria importante caso o interesse fosse o de reproduzir em detalhes todo o organismo da aplísia para que biólogos pudessem estudá-la sem a presença de um animal real. No entanto, como a intenção desta pesquisa é a de abstrair apenas a essência da estratégia de aprendizagem do animal, considera-se uma única semiose composta por todas as outras. Assim, a presença da serotonina (O) acarreta uma reconfiguração orgânica na zona ativa do neurônio sensor do sifão (S), o que provoca uma ação de sensibilização de curto prazo (I) e o consequente ajuste de Qv a maior na semiose S4~\cite{kandel06,kandel00}. Isto ocorre a uma taxa ajuste de sensibilização de curto prazo
+	%(Tsc\nomenclature{Tsc}{Taxa de ajuste de sensibilização de curto prazo}).
+
+	A Fig~\ref{0311s9-eps-converted-to} refere-se às características da semiose S9.
+
+	\item \textbf{Semiose 10 - Mecanismo sensibilização de longo prazo}
+
+	A última semiose a ser considerada (S10) é responsável pelo aumento da quantidade de terminais ativos, ou seja, ela modula a semiose S5. O mecanismo de ação para este processo também é bastante complexo iniciando-se pela presença de uma grande quantidade de serotonina.
+
+	\figLatHere[0.6]{\eduPastaFig}{0312s10-eps-converted-to}{Características da semiose S10.}
+
+	Quando uma alta  concentração deste neurotransmissor ocorre pela repetição do estímulo nocivo, a serotonina, parte da quinase A, gerada no interior da zona ativa do neurônio sensor do sifão, migra em direção ao núcleo do neurônio; no processo de migração da quinase A até o núcleo, ela recruta a MAP-quinase; A quinase A fosforila a proteína CREB; para ativar CREB-1, a ação repressiva de CREB-2 deve ser removida, o que ocorre por ação da MAP-quinase; CREB-1 ativa gene responsável pela ação persistente da quinase A; Outro gene é ativado pela CREB-1, responsável por acionar outro fator de transcrição, o C/EBP. Este fator conecta-se ao elemento de resposta de DNA CAAT, que ativa um terceiro gene responsável pelo crescimento de novas sinapses; RNA mensageiro e proteínas sintetizadas são enviados para todas as sinapses, porém somente a sinapse facilitada terá crescimento de novas conexões. Isto ocorre pois o RNA mensageiro é enviado em estado dormente (RNAm) aos terminais, sendo ativados pelo CPEB (proteína local autoperpetuadora) dominante transformado a partir do CPEB recessivo pela ação dos 5 pulsos de serotonina. O RNAm é responsável pelo crescimento da conexão, a CPEB pela manutenção deste crescimento.
+
+	Em síntese: certa frequência de exocitoses de serotonina
+	%(Fs\nomenclature{Fs}{Frequência de exocitoses de serotonina})
+	é o objeto (O) desta semiose, resultando numa certa reconfiguração orgânica na zona ativa do neurônio sensor do sifão (S) o que provoca uma ação de sensibilização de curto prazo (I) e o consequente ajuste de Qs a maior na semiose 5, acima~\cite{kandel06,kandel00}. Isto ocorre a uma taxa ajuste de sensibilização de longo prazo
+	%(Tsl\nomenclature{Tsl}{Taxa de ajuste de sensibilização de longo prazo}).
+
+	A Fig.~\ref{0312s10-eps-converted-to} refere-se às características da semiose S10.
+
+\end{itemize}
+
+\subsection{Passo 5: modelagem semiótica}
+
+A figura 3.13 representa as interações das semioses levantadas no passo anterior, resultando nas cadeias semióticas características do fenômeno biológico em estudo. Trata-se de uma representação gráfica da estratégia de aprendizado abstraída dos fenômenos de habituação e sensibilização da aplísia, através da aplicação de conceitos semióticos. Essas interações estão organizadas em diferentes camadas de subordinação conforme levantamento realizado no passo 2 do método proposto e retrata os processos abstraídos segundo o nível focal celular e de suas organelas definido no passo 3 do MTS. Seguem abaixo as descrições das interações semióticas em cada camada de subordinação.
+
+\paragraph*{Camada de comportamento normal}
+
+Uma primeira semiose (S1), na zona de disparo do neurônio sensor do sifão, é responsável por interpretar se o toque do sifão da aplísia é suficientemente forte para gerar um potencial de ação, trata-se de uma interpretação binária (discreta). Quando o evento (toque) é aceito como válido rompendo o limiar de -55 mV (objeto de S1), ocorre um rearranjo iônico na zona de disparo (signo de S1) resultando num potencial de ação (interpretante de S1); o potencial de ação gerado na zona de disparo chega à zona ativa do mesmo neurônio (objeto de S2) e desencadeia uma segunda semiose (S2), ocorrendo, então um rearranjo na concentração de íons $Ca^{++}$ no interior da zona ativa (signo de S2) resultando na exocitose de glutamato na fenda sináptica (interpretante de S2). A presença de glutamato na fenda sináptica (objeto de S3) provoca uma nova configuração orgânica no neurônio motor da guelra (signo de S3) que, por sua vez, provoca reações físicas específicas (interpretante de S3) no sistema de enervação da guelra provocando sua retração.
+
+A exocitose de glutamato esvazia as vesículas mobilizadas na zona ativa do neurônio sensor do sifão, então o sistema procura restabelecer tais vesículas através do processo de endocitose. Abstrai-se, então, que uma nova semiose (S4) ocorre na zona ativa do mesmo neurônio. O sinal perceptivo de ausência de vesículas (objeto de S4), provoca uma nova configuração orgânica (signo de S4), cujo resultado é a endocitose que ocorre na zona ativa do neurônio sensor do sifão (interpretante de S4). Este processo modula a quantidade de vesículas disponíveis em S2 (Qv) a maior ou a menor (efeito somatório) de acordo com a modulação do sistema em comportamento normal, habituado ou sensibilizado.
+
+Quando a frequência de exocitoses atinge certo valor, ocorre uma mudança na concentração proteica (objeto de S5) no interior da zona ativa do neurônio sensor do sifão resultando numa nova semiose (S5), o que provoca uma certa configuração orgânica específica (signo de S5) que proporciona o aumento ou diminuição de conexões sinápticas (Qs) (interpretante de S5). Isto modula a quantidade de conexões sinápticas, a maior ou a menor, em S2, provocando um efeito multiplicador na quantidade de vesículas disponíveis.
+
+\paragraph*{Camada de habituação}
+
+A camada de habituação apresenta duas semioses, S6 e S7, responsáveis pelas habituações de curto e longo prazos.
+
+A semiose S6 tem por objeto o sinal perceptivo de reservatório vazio (exocitose), da mesma forma que S4. Isto provoca uma configuração orgânica específica na zona ativa (signo de S6) de tal forma que S6 promove uma ação de habituação de curto prazo (interpretante de S6). Esta ação modula a semiose S4 através do que pode ser chamado de taxa de ajuste de habituação de curto prazo (Thc).  Esta taxa atualiza o estado de S4 para uma condição de menor número de vesículas disponíveis e consequentemente menor quantidade de glutamato liberado na fenda sináptica quando ocorrer S2 novamente. Isto é necessário para se instalar o estado de habituação de curto prazo. Em resumo, abstrai-se que, sempre que ocorre uma exocitose na zona ativa do neurônio sensor do sifão (o que corresponde a toques no sifão), S6 a contabiliza e ajusta a próxima endocitose a repor uma quantidade menor de vesículas, o que acarreta uma próxima exocitose mais fraca, habituando o sistema.
+
+A semiose S7 ocorre através de um mecanismo próprio tendo como sinal perceptivo certa frequência de exocitoses (objeto de S7). Assim, procede também a uma reconfiguração orgânica na zona ativa do neurônio sensor do sifão (signo de S7), desta feita correspondente a uma habituação de longo prazo. O resultado é uma ação de habituação de longo prazo (interpretante de S7).
+
+Esta ação modula a semiose S5 para uma condição de menor quantidade de conexões entre neurônio sensor do sifão e neurônio motor da guelra. Isto também acarreta uma menor descarga de glutamato na fenda sináptica, porém o efeito de tal ajuste dura um tempo bem maior que o conseguido através de S6. A modulação de S5 por S7 ocorre a uma taxa de ajuste habituação de longo prazo (Thl).
+
+\paragraph*{Camada de sensibilização}
+
+A camada de sensibilização representa um processo desencadeado por um circuito diferente, chamado de circuito modulatório. Uma semiose, S8, muito semelhante à semiose S1, é ativada pelo choque na cauda da aplísia. Ao romper o limiar de -55 mV (objeto de S8) na zona de disparo do interneurônio facilitador ocorre um rearranjo iônico compatível com a intensidade do estímulo (signo de S8) responsável por uma exocitose de serotonina na fenda sináptica entre o interneurônio facilitador da cauda e o neurônio sensor do sifão (interpretante de S8).
+
+A concentração de serotonina (signo de S9) inicia uma nova semiose na zona ativa do neurônio sensor do sifão (S9), provocando uma nova configuração orgânica nesta região (signo de S9), o que acarreta uma ação de sensibilização de curto prazo (interpretante de S9). Isto acaba modulando, a maior, a semiose S4 numa taxa específica chamada aqui de taxa de ajuste de sensibilização de curto prazo (Tsc). Assim, na próxima ocorrência de S4, a reposição das vesículas de glutamato disponibiliza uma quantidade muito maior de neurotransmissor, maior ainda do que a quantidade envolvida no comportamento normal. Isto modula o sistema para um estado de sensibilização de curto prazo.
+
+Finalmente, a semiose S10 é instalada quando o sistema atinge certa frequência de exocitoses de serotonina (objeto de S10), devido ao treinamento de sensibilização de longo prazo. Esse excesso de serotonina provoca uma reconfiguração orgânica específica para a sensibilização de longo prazo (signo de S11), provocando a ação de sensibilização de longo prazo (interpretante de S10) e o consequente aumento de conexões sinápticas entre o neurônio sensor do sifão e o sensor motor da guelra. Isto acaba por modular a Semiose S5, a maior, segundo a taxa de ajuste de sensibilização de longo prazo (Tsl).
+
+\figLatHere[0.9]{\eduPastaFig}{0313modelosemiotico-eps-converted-to}{Diagrama representando o modelo semiótico abstraído do comportamento de habituação e sensibilização do \textit{Aplysia californica}.}
+
+\section{Do modelo semiótico à UBA-HS: passo 6 do MTS}
+
+Codificação da UBA-HS usando a linguagem de especificação UBA.
+
+\section{Aplicação (didática): busca de texto}
+
+\subsection{O problema}
+
+O objetivo desta aplicação é investigar, nos quatro arquivos citados, linha por linha, a existência de passagens nas quais personagens perambulam pelas ruas de Dublin e que também apresentem referências aos locais por onde passam. O andar pela cidade foi considerado como o ``tema'' da busca, correspondendo ao evento mediador do metamodelo e representado por verbos que indiquem as ações das personagens: andar, cruzar (ruas, avenidas, etc.), correr, olhar (monumentos, paisagens, etc.), dentre outros. Os locais da cidade, ruas, parques, pontes e outros, foram  considerados como o ``contexto'' da busca, correspondendo ao evento modulador.
+
+O aplicativo inicia a busca de tema e contexto, linha por linha, em ``modo normal''. Quando um primeiro tema é encontrado, uma ``ação normal'' é tomada, o que significa acionar a verificação de contexto. Se o contexto não for encontrado na mesma linha, e isto se repetir nas linhas que se seguem, o sistema tende ao  ``modo habituado'' até começar a ignorar a verificação de contexto em linhas consequentes mesmo que contenham o tema. Este efeito permanece por algum tempo, com o sistema retornando aos poucos ao modo normal. Em termos práticos, significa que trechos habituados, apesar de apresentarem o tema, provavelmente estão fora de contexto e o aplicativo ``ignora'' (``ação habituada'') por algum tempo a busca completa.
+
+Quando, ao contrário, o contexto é encontrado com frequência em linhas que apresentam o tema, o sistema tende ao modo ``sensibilizado'' até que uma ``ação sensibilizada'' seja tomada, o que significa buscar detalhes do contexto em linhas que contenham o tema. Esses detalhes são aqui entendidos como substantivos próprios referentes à cidade de Dublin como \textit{Liffey} e \textit{Westland}. Esses substantivos próprios foram colhidos no trabalho de Gunn e Hart~\cite{gunn04}. Quando sensibilizado, o sistema permanece assim por algum tempo retornando ao modo normal à medida que a busca continua.
+
+\subsection{Aplicação}

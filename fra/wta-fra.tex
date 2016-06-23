@@ -1,0 +1,47 @@
+\documentclass[12pt,graybox,envcountchap,sectrefs]{svmono}
+
+%%% Para uso de figuras neste documento.
+%%% Deve ser redefinido para gerar a monografia
+\newcommand{\geralPasta}{../geral}
+\newcommand{\fraPasta}{../fra}
+\newcommand{\fraPastaFig}{\fraPasta/fig}
+
+\input{\geralPasta/Z.Comando}
+
+\title{Unidades Biomiméticas Adaptativas}
+\author{Francisco S. Marcondes}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\input{\geralPasta/P.1.Parte}
+
+\input{\geralPasta/P.2.Parte}
+
+\input{\geralPasta/P.3.Parte}
+
+\input{\geralPasta/P.4.Parte}
+	\chapter{Usos dos Resultados}
+	\label{cap:resultados}
+	\input{\geralPasta/B.5.Aplicacoes}
+	\input{\fraPasta/1.Cap/secCatalogo}
+
+\input{\geralPasta/B.7.Conclusao}
+
+\input{\geralPasta/C.1.Apendice}
+
+\backmatter
+
+	\input{\geralPasta/C.3.Glossario}
+	\input{\geralPasta/C.4.Solucoes}
+	%%%\input{geral/C.2.Referenc}
+
+    % Pasta de bibliografia deve ser relativa à ``dist'':
+    \bibliographystyle{\bibPasta/spphys}
+	\bibliography{\bibPasta/bibliografia}
+	\printindex
+
+\end{document}

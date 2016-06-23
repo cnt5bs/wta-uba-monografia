@@ -1,0 +1,51 @@
+\documentclass[12pt,graybox,envcountchap,sectrefs]{svmono}
+
+%%% Para uso de figuras neste documento.
+%%% Deve ser redefinido para gerar a monografia
+\newcommand{\geralPasta}{../geral}
+\newcommand{\eduPasta}{../edu}
+\newcommand{\eduPastaFig}{\eduPasta/fig}
+
+\input{\geralPasta/Z.Comando}
+
+\title{MTS}
+\author{Eduardo Camargo}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\input{\geralPasta/P.1.Parte}
+	\input{\eduPasta/1.Cap/capComputacaoBioinspirada}
+	\input{\eduPasta/2.Cap/capMTS}
+
+\input{\geralPasta/P.2.Parte}
+
+\input{\geralPasta/P.3.Parte}
+	\input{\eduPasta/3.Cap/capUbaCelular}
+	\input{\eduPasta/4.Cap/capUbaOrganela}
+	\input{\eduPasta/5.Cap/capUbaAnimal}
+
+\input{\geralPasta/P.4.Parte}
+	\chapter{Usos dos Resultados (?)}
+	\label{cap:resultados} % Always give a unique label
+
+\input{\geralPasta/B.7.Conclusao}
+	\input{\eduPasta/6.Cap/capConclusao}
+
+\input{\geralPasta/C.1.Apendice}
+
+\backmatter
+
+	\input{\geralPasta/C.3.Glossario}
+	\input{\geralPasta/C.4.Solucoes}
+	%%%\input{geral/C.2.Referenc}
+
+    % Pasta de bibliografia deve ser relativa à ``dist'':
+    \bibliographystyle{\bibPasta/spphys}
+	\bibliography{\bibPasta/bibliografia}
+	\printindex
+
+\end{document}

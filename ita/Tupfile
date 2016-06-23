@@ -1,0 +1,23 @@
+include_rules
+
+AUTOR=ita
+DOC=wta-$(AUTOR)
+INPUT=$(DOC).tex
+OUTPUTTEX=$(PASTA_BASE)/dist
+XELATEX=xelatex -output-directory=$(OUTPUTTEX)
+
+: $(INPUT) | $(DST_FIG)/<figuras> |> \
+    $(XELATEX) %f; \
+    cd $(OUTPUTTEX); \
+    bibtex %B; \
+    cd ../$(PROJETO_GIT)/$(AUTOR); \
+    $(XELATEX) %f; \
+    $(XELATEX) %f |> \
+        $(OUTPUTTEX)/%B.pdf \
+        $(OUTPUTTEX)/%B.idx \
+        $(OUTPUTTEX)/%B.aux \
+        $(OUTPUTTEX)/%B.log \
+        $(OUTPUTTEX)/%B.blg \
+        $(OUTPUTTEX)/%B.bbl \
+        $(OUTPUTTEX)/%B.toc \
+        $(OUTPUTTEX)/%B.out

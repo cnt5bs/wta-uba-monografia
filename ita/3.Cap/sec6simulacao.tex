@@ -1,0 +1,155 @@
+
+   \begin{quote}
+   \textit{Observação para a Comissão do WTA: a parte do texto a seguir está INCOMPLETA e contém apenas as ideias e código centrais. O texto precisa ser refinado! Isto se aplica para as seções \ref{sec:isv:execucao-uba}, \ref{sec:isv:execucao-cfa} e \ref{sec:isv:execucao-transicao}.}
+   \end{quote}
+
+\section{Operação de Autômatos UBA}
+\label{sec:isv:execucao-uba}
+
+
+   \figTop[0.6]{\itaPastaFig}{fig-uba-dcl}{Diagrama de classes UML revelando a estrutura de classes do para utilização da máquina virtual UBA da classe \uml{Exemplo1}.}
+
+\begin{lstlisting}
+def reconhecer( uba, cadeia ) {
+    def reconheceu = true
+    cadeia.split("\\.").each { simb ->
+        def habilitadas = calcularTransicoesHabilitadas( uba, simb )
+        chamarFuncoesAdaptativas( uba, habilitadas, CFA.ANTERIOR )
+        reconheceu = realizarTransicao( uba, simb, reconheceu )
+        chamarFuncoesAdaptativas( uba, habilitadas, CFA.POSTERIOR )
+        recalcularEstados( uba, simb )
+    }
+    uba.finais = uba.ramos.Reconhecimento.calcularFinais( uba )
+    ( reconheceu && uba.corrente in uba.finais ) ? true : false
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}
+def calcularTransicoesHabilitadas( uba, simb ){
+  uba.regras.findAll { i, r ->
+      r[1][0] == uba.corrente && r[1][1] == simb
+  }
+}
+\end{lstlisting}
+
+\subsection*{Análise Adaptativa de Cadeias de Símbolos}
+
+      \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-0-delta}{Topologia inicial do autômato \uba{a2}. O estado \estado{q1} é inicial, final e corrente no momento.}
+
+O primeiro símbolo \simbolo{a} da cadeia de entrada habilita a regra \regra{fx=>(q1,a)->q1} para o disparo. Como ela contém uma chamada da função adaptativa \funcao{fx}, a transição é precedida por uma transformação na topologia do autômato. Como se pode observar na Fig~\ref{fig-cenario-Exemplo2-1-estados-manual}, novos estados (\estado{g4}, \estado{g5}, \estado{g6}, \estado{g7} e \estado{g8}) e transições são incorporados ao autômato, mas o estado corrente ainda é \estado{q1}. Terminada a chamada da função \funcao{fx}, ocorre a transição para o estado \estado{q1} (e, portanto, não se percebe alteração no estado corrente), com consumo do símbolo \simbolo{a}. Visualmente, não se observa esta alteração na configuração do autômato; pode-se utilizar a mesma imagem daquela mostrada na Fig~\ref{fig-cenario-Exemplo2-1-estados-manual}.
+
+      \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-1-estados-manual}{Topologia do autômato depois da primeira chamada da função adaptativa \funcao{fx}. A transição habilitada (indicada em vermelho) ainda não aconteceu.}
+
+Na presença de um segundo símbolo \simbolo{a}, uma vez mais a transição da regra adaptativa \regra{fx=>(q1,a)->q1} torna-se habilitada para o disparo. Por causa da chamada da função adaptativa \funcao{fx}, o autômato \uba{a2} sofre uma nova transformação topológica (Fig~\ref{fig-cenario-Exemplo2-2-estados-manual}). Observa-se a incorporação de novos estados (\estado{g9}, \estado{g10}, \estado{g11}, \estado{g12} e \estado{g13}), além de novas transições.
+
+      \figTop[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-2-estados-manual}{Topologia do autômato depois da segunda chamada da função adaptativa \funcao{fx}. A transição habilitada (indicada em vermelho) ainda não aconteceu.}
+
+A Fig~\ref{fig-cenario-Exemplo2-6-estados-manual} ilustra a situação do autômato após processar o prefixo $aabbbb$. Uma decisão de projeto do modelo semântico foi tomada neste caso. O fechamento-$\epsilon$ do estado \estado{g10} é igual ao conjunto de estados \{\estado{g10}, \estado{g2}, \estado{g11}\}. A decisão foi a de representar o estado corrente do autômato pelo estado \estado{g10}. Formas alternativas de representação podem ser encontradas na literatura~\cite{ramos:2009:lftmi}.
+
+      \figTop[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-6-estados-manual}{Situação do autômato depois de reconhecer o prefixo $aabbbb$.}
+
+Assim, ao processar o quarto símbolo da cadeia de entrada, $b$, o autômato \uba{a2} passa para o estado \estado{g10}. Considerando-se que o próximo símbolo a ser processado é $c$, o autômato transita daquele estado para o estado \estado{g12}.
+
+      \figTop[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-7-estados-manual}{Situação do autômato depois de reconhecer o prefixo $aabbbbc$. Observe-se que o fechamento-$\epsilon$ do estado \estado{g10} é \{\estado{g10}, \estado{q2}, \estado{g11} \}.}
+
+\section{Chamada de Funções Adaptativas}
+\label{sec:isv:execucao-cfa}
+
+\begin{lstlisting}
+def chamarFuncoesAdaptativas( uba, habilitadas, k ) {
+  habilitadas.each { i->
+      try {
+          // Pode provocar efeito colateral em 'regras'
+          uba."${i.value[k]}"()
+      } catch(Exception e) {
+      }
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+def recalcularEstados( uba, simb ) {
+  uba.estados = []
+  uba.regras.each { i, r -> uba.estados += [r[1][0], r[1][2]]}
+  uba.estados = uba.estados.unique { a, b -> a <=> b }
+}
+\end{lstlisting}
+
+
+\section{Transição de Estado}
+\label{sec:isv:execucao-transicao}
+
+\begin{lstlisting}
+def realizarTransicao( uba, simb, reconheceu ) {
+  if( reconheceu ) {
+      def seguintes = uba.ramos.Reconhecimento.seguintes( uba, uba.corrente, simb )
+      if( seguintes ) {
+          uba.correnteAnterior = uba.corrente
+          uba.corrente = seguintes[ 0 ]
+      }
+      else reconheceu = false
+  }
+  reconheceu
+}
+\end{lstlisting}
+
+\subsection{Transição de Estado Não-Adaptativo}
+
+\begin{lstlisting}
+def static seguintes( uba, corrente, simb ) {
+   def fechoCorrente = fechamento( uba, [corrente] )
+   def seguintes = []
+   fechoCorrente.find { q ->
+        uba.regras.find { i, r ->
+            if( q == r[1][0] && r[1][1] == simb ) {
+                seguintes = fechamento( uba, [r[1][2]] )
+                return true
+            }
+        }
+   }
+   seguintes
+}
+\end{lstlisting}
+
+\subsection{Cálculo do Fechamento-$\epsilon$}
+
+Baseado em Ramos et al~\cite{ramos:2009:lftmi}:
+
+\begin{lstlisting}
+   def static fechamento( uba, p ) {
+      def s = p
+      def fecho = [:]
+      uba.estados.each { e-> fecho[ e ] = 'fora' }
+      p.each { e-> fecho[ e ] = 'dentro' }
+      while( ! s.isEmpty() ) {
+           def u = s.pop()
+           uba.regras.each { i, r ->
+               if( u == r[1][0] && '' == r[1][1] ) {
+                   def v = r[1][2]
+                   if( fecho[ v ] == 'fora' ) {
+                       fecho[ v ] = 'dentro'
+                       s << v
+                   }
+               }
+           }
+      }
+      fecho*.key.findAll { fecho[it] == 'dentro' }
+   }
+\end{lstlisting}
+
+
+
+\subsection{Cálculo dos Estados Finais}
+
+\begin{lstlisting}
+def static calcularFinais( uba ) {
+    def r = uba.estados.inject( uba.finais ) { c, e ->
+        def fecho = fechamento( uba, [e] )
+        if( fecho.intersect( c )) c += fecho
+        c = c.unique()
+    }
+    r.sort()
+}
+\end{lstlisting}
+

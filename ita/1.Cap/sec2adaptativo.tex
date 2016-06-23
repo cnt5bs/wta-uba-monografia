@@ -1,0 +1,54 @@
+\section{Regras Adaptativas}
+\label{sec:isv:regra-adaptativa}
+
+%\begin{quote}\textit{(A ideia central desta seção é a de apresentar um modelo semântico de dispositivo adaptativo usando uma notação personalizada descrita na seção anterior. Mais adiante, tal notação será utilizada para especificar a semântica das Unidades Biomiméticas Adaptativas (UBA), estudadas no Cap.~\ref{cap:isv:uba}. Como base, considera-se o artigo \textit{An adaptive automata operational semantic} \cite{italo:2009} e \textit{Especificações adaptativas e objetos, uma técnica de design de software a partir de statecharts com métodos adaptativos} \cite{vega:2012}.)}\end{quote}
+
+Como modelo de computação, o autômato adaptativo é equivalente à Máquina de Turing~\cite{neto:1998}. Por conseguinte, o seu modelo semântico pode ser especificado com elementos das linguagens de programação de alto nível. Em particular, dando continuidade aos elementos notacionais anteriormente apresentados, serão incorporados o suporte à chamada de funções adaptativas nas regras de transição, bem como o suporte à descrição dos seus efeitos por meio de ações adaptativas. O diagrama mostrado na Fig.~\ref{fig-regra-adaptativa-uxf} enfatiza a principal relação entre as ações adaptativas e o espaço de regras adaptativas do autômato: modificação. Uma ação adaptativa pode modificar as regras de um autômato durante a sua opearação. É esta capacidade de auto-modificação espontânea de comportamento que caracteriza a adaptatividade.
+
+	\figLatHere[0.67]{\itaPastaFig}{fig-regra-adaptativa-uxf}{Modelo conceitual de um autômato adaptativo com destaque para as suas ações adaptativas.}
+
+Embora ofereça um suporte reduzido à adaptatividade, a linguagem LUBA suporta a realização de experimentos que ajudam a apresentar os conceitos utilizados na concepção de modelos biomiméticos. Considere-se a especificação de um novo tipo de autômato contendo uma única regra adaptativa inicialmente:
+
+\begin{lstlisting}
+uba Exemplo2 {
+   fx => (>q1, a) -> q1
+   (q1, ) -> q2
+   (q2, ) -> !q3
+	<!-- restante da especificação -->
+}
+\end{lstlisting}
+
+\noindent
+A instanciação de um autômato desta classe é feita nos mesmos moldes da classe \lstinline|Exemplo1| anteriormente discutida:
+
+\begin{lstlisting}
+a2 = new Exemplo2()
+\end{lstlisting}
+
+\noindent
+A Fig~\ref{fig-cenario-Exemplo2-0-delta} contém uma representação visual da topologia deste autômato após ser instanciado. O seu estado inicial é \estado{q1} (ou seja, é o estado corrente imediatamente após a instanciação do autômato). A partir deste estado, duas regras podem ser disparadas para levar o autômato para os estados \estado{q1} e \estado{q2} (este último, um estado interno). Uma terceira regra contém uma transição que, ao ser disparada, leva \estado{a2} do estado \estado{q2} para o estado \estado{q3}. Tanto esta quanto a segunda regra contém o que se chama de \textit{transição em vazio} ou \textit{transição}-$\epsilon$. A primeira regra, entretanto, traz uma novidade: uma chamada da função adaptativa \funcao{fx}. Por este motivo, esta é uma regra adaptativa.
+
+	\figLatHere[0.35]{\itaPastaFig}{fig-cenario-Exemplo2-0-delta}{Configuração inicial do dispositivo \uba{a2} na qual a auto-transição provoca uma chamada da função adaptativa \funcao{fx}, caso o símbolo de entrada seja uma ocorrência de \simbolo{a}. O estado \estado{q1} é inicial e corrente, enquanto o estado \estado{q2} é interno e \estado{q3}, final.}
+
+Como se comporta o autômato \uba{a2} durante o processamento de uma cadeia de símbolos? Certamente ele reconhece a cadeia vazia denotada por $\epsilon$. Ele reconhece a cadeia $a$? A resposta irá depender do efeito provocado pela chamada da função adaptativa \funcao{fx}. A ideia é especificar o autômato adaptativo para que ele seja capaz de reconhecer a linguagem contendo todas as cadeias com a forma da expressão regular $\mathbf{a^nb^{2n}c^{3n}}$, para $n \geq 0$ (exemplo inspirado em uma apresentação feita por Neto~\cite{neto:2008}). Como anteriormente feito para o \lstinline|Exemplo1|, denota-se a classe de dispositivos adaptativos \lstinline|Exemplo2| por $\textit{Exemplo2}=(Q, \Sigma, q_0, F, \delta, \textit{CA})$ onde:
+
+\begin{itemize}
+\item $Q$ é um conjunto finito de estados;
+\item $\Sigma$ é um conjunto finito de estímulos de entrada;
+\item $q_0 \in Q$ é o estado inicial;
+\item $F\subseteq Q$ é o conjunto de estados finais;
+\item $\delta:Q\times\Sigma \rightarrow Q$ é a função de transição de estados;
+\item \textit{CA} é a camada adaptativa de \textit{Exemplo2};
+\end{itemize}
+
+\noindent e
+
+	\begin{align*}
+	Q = \{q_1, q_2, q_3\},\ \Sigma = \{a\},\ q_0 = q_1,\ F = \{q_3\} \\
+	\\
+	\delta \triangleq \{ \mathsf{fx}\cdot(q_1, a) \mapsto q_1,  (q_1, \epsilon) \mapsto q_2,  (q_2, \epsilon) \mapsto q_3 \} \tag{i}\label{d2-transicoes}
+	\end{align*}
+
+\noindent
+Como no exemplo \uba{Exemplo1}, a função de transição  $\delta$ contém três pares, mas o primeiro deles introduz uma chamada da função adaptativa \funcao{fx}. Agora, qual deve ser a definição desta função de modo que \uba{a2} reconheça as cadeias denotadas pelas expressão $\mathbf{a^nb^{2n}c^{3n}}$? Um novo mecanismo se faz presente na linguagem LUBA: definição de funções adaptativas.
+

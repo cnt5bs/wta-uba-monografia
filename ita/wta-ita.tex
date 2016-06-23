@@ -1,0 +1,56 @@
+\documentclass[12pt,graybox,envcountchap,sectrefs]{svmono}
+
+
+%%% Para uso de figuras neste documento.
+%%% Deve ser redefinido para gerar a monografia
+\newcommand{\itaPastaFig}{fig}
+\newcommand{\geralPasta}{../geral}
+\newcommand{\itaPasta}{.}
+\input{\geralPasta/Z.Comando}
+
+\title{Linguagem LUBA}
+\author{Italo S. Vega}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\input{\geralPasta/P.1.Parte}
+	\input{\itaPasta/1.Cap/capAdaptatividade}
+    \input{\itaPasta/1.Cap/sec1subjacente}
+    \input{\itaPasta/1.Cap/sec2adaptativo}
+    \input{\itaPasta/1.Cap/sec3funcaoAdaptativa}
+	%%% existem várias técnicas computacionais
+	%%% escolha recai sobre adaptatividade
+	%%% \input{edu/capAreaUso}
+	%%% \input{ita/capAreaUso}
+
+\input{\geralPasta/P.2.Parte}
+	\input{\itaPasta/2.Cap/capLUBA}
+    \input{\itaPasta/2.Cap/sec1antlr}
+    \input{\itaPasta/2.Cap/sec4gramatica}
+    \input{\itaPasta/2.Cap/sec5maquinaAbstrata}
+
+	\input{\itaPasta/3.Cap/capExecucaoUBA}
+    \input{\itaPasta/3.Cap/sec6simulacao}
+
+%%%\input{../geral/P.3.Parte}
+
+\input{\geralPasta/P.4.Parte}
+	\chapter{Usos dos Resultados (?)}
+	\label{cap:resultados} % Always give a unique label
+
+\input{\geralPasta/C.1.Apendice}
+	\input{\itaPasta/4.Cap/capLUBA}
+	\input{\itaPasta/4.Cap/capGerador}
+	\input{\itaPasta/4.Cap/capAntlr4}
+	\input{\itaPasta/4.Cap/capUml}
+
+    % Pasta de bibliografia deve ser relativa à ``dist'':
+    \bibliographystyle{\bibPasta/spphys}
+	\bibliography{\bibPasta/bibliografia}
+	\printindex
+
+\end{document}

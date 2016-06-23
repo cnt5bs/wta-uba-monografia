@@ -1,0 +1,59 @@
+%\motto{Use the template \emph{chapter.tex} to style the various elements of your chapter content.}
+
+\chapter{Gramática Concreta da Linguagem LUBA}
+\label{cap:isv:gramatica} % Always give a unique label
+% use \chaptermark{}
+% to alter or adjust the chapter heading in the running head
+
+\begin{quote}
+\textit{(A ideia deste apêndice é apresentar a especificação completa da gramática da notação UBA. As regras ainda estão sendo trabalhadadas; a seguir encontram-se aquelas utilizadas para a apresentação da noção de adaptatividade no Cap.~\ref{cap-adaptatividade}.)}
+\end{quote}
+
+\begin{lstlisting}[style=antlr]
+parser grammar UbaParser;
+options { tokenVocab=UbaLexer; }
+
+luba : UBA idClasse ABBL declaracao* FEBL ;
+declaracao : decRegra | decFuncao ;
+idClasse : IDENTIFICADOR ;
+
+// Declaração de regra
+decRegra :
+	cfa?
+	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR
+	SETA decEstDst
+	cfp?
+	;
+decEstOrg : INICIAL? idEstado ;
+decEstDst : FINAL? idEstado ;
+idSimbolo : IDENTIFICADOR ;
+cfa : idFuncao FANT ;
+cfp : FPOS idFuncao ;
+idFuncao : IDENTIFICADOR ;
+
+// Declaração de função adaptativa
+decFuncao : idFuncao
+	ABBL seqConsultas? seqRemocoes? seqInsercoes? 	FEBL ;
+	
+seqConsultas : CONSULTAS acaoConsulta*;
+seqRemocoes : REMOCOES acaoRemocao*;
+seqInsercoes : INSERCOES acaoInsercao*;
+
+acaoConsulta : BARRA padraoRegra BARRA ;
+acaoRemocao : BARRA padraoRegra BARRA ;
+acaoInsercao : BARRA padraoRegra BARRA ;
+
+padraoRegra : padraoConfig SETA padraoDestino ;
+padraoConfig
+	: ABPAR padraoOrigem VIRGULA padraoEstimulo? FEPAR ;
+padraoOrigem : padraoEstado ;
+padraoDestino : padraoEstado ;
+padraoEstado
+	: estadoLocal | estadoInstancia | estadoGerado  ;
+
+estadoLocal : GERADORVAR IDENTIFICADOR ;
+estadoGerado : GERADORANON NUM ;
+estadoInstancia : ( INICIAL | FINAL )? idEstado ;
+padraoEstimulo : IDENTIFICADOR ;
+idEstado : IDENTIFICADOR ;
+\end{lstlisting}

@@ -1,0 +1,131 @@
+
+\usepackage{polyglossia}
+\setmainlanguage{portuges}
+
+% choose options for [] as required from the list
+% in the Reference Guide
+%\usepackage{mathptmx}
+%\usepackage{helvet}
+%\usepackage{courier}
+\usepackage{xltxtra,fontspec,xunicode}
+%\setmainfont[Ligatures=TeX]{Vollkorn}
+%\setromanfont[Ligatures=TeX]{Vollkorn}
+%\setsansfont[Ligatures=TeX,Scale=MatchLowercase]{DejaVu Sans}
+%\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newfontfamily\listingsfont[Scale=0.7]{DejaVu Sans Mono}
+\newfontfamily\listingsfontinline[Scale=0.8]{DejaVu Sans Mono}
+\usepackage{listings}
+	\usepackage{color}
+	\definecolor{sh_comment}{rgb}{0.12, 0.38, 0.18 } %adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
+	\definecolor{sh_keyword}{rgb}{0.37, 0.08, 0.25}  % #5F1441
+	\definecolor{sh_string}{rgb}{0.06, 0.10, 0.98} % #101AF9
+	\def\lstsmallmath{\leavevmode\ifmmode \scriptstyle \else  \fi}
+	\def\lstsmallmathend{\leavevmode\ifmmode  \else  \fi}
+	\lstset {
+	language=Java,
+%	frame=shadowbox,
+	rulesepcolor=\color{black},
+	showspaces=false,showtabs=false,tabsize=2,
+%	numberstyle=\tiny,numbers=left,
+	basicstyle= \listingsfont,
+	stringstyle=\color{sh_string},
+	keywordstyle = \color{sh_keyword}\bfseries,
+	commentstyle=\color{sh_comment}\itshape,
+	captionpos=b,
+	xleftmargin=0.7cm, xrightmargin=0.5cm,
+	lineskip=-0.3em,
+	escapebegin={\lstsmallmath}, escapeend={\lstsmallmathend}
+	}
+	% Applies only when you use it
+	\usepackage{xcolor}
+	\lstdefinestyle{antlr}{
+	basicstyle=\small\ttfamily\color{magenta},%
+	breaklines=true,%                                      allow line breaks
+	moredelim=[s][\color{green!50!black}\ttfamily]{'}{'},% single quotes in green
+	moredelim=*[s][\color{black}\ttfamily]{options}{\}},%  options in black (until trailing })
+	commentstyle={\color{gray}\itshape},%                  gray italics for comments
+	morecomment=[l]{//},%                                  define // comment
+	emph={%
+	 STRING%                                            literal strings listed here
+	 },emphstyle={\color{blue}\ttfamily},%              and formatted in blue
+	alsoletter={:,|,;},%
+	morekeywords={:,|,;},%                                 define the special characters
+	keywordstyle={\color{black}},%                         and format them in black
+	}
+\usepackage{type1cm}
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+% Bibliography
+%\usepackage{natbib,har2nat}
+\usepackage[numbers]{natbib}
+\renewcommand{\refname}{Bibliografia}
+
+\usepackage[pdfpagelabels=true, plainpages=false,
+            colorlinks=true, allcolors=blue]{hyperref}
+
+% see the list of further useful packages
+% in the Reference Guide
+\makeindex             % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+
+%\usepackage{epigraph}
+
+\newcommand{\fig}[4][0.50]{\begin{figure}[ht]
+%\sidecaption
+\includegraphics[scale=#1]{#2/#3}
+\caption{#4}
+\label{#3}       % Give a unique label
+\end{figure}}
+
+\newcommand{\figBot}[4][0.50]{\begin{figure}[b]
+%\sidecaption
+\includegraphics[scale=#1]{#2/#3}
+\caption{#4}
+\label{#3}       % Give a unique label
+\end{figure}}
+
+\newcommand{\figTop}[4][0.50]{\begin{figure}[t]
+%\sidecaption
+\includegraphics[scale=#1]{#2/#3}
+\caption{#4}
+\label{#3}       % Give a unique label
+\end{figure}}
+
+\newcommand{\figLatHere}[4][0.50]{\begin{figure}[ht]
+\sidecaption
+\includegraphics[scale=#1]{#2/#3}\caption{#4}\label{#3}
+\end{figure}}
+
+\newcommand{\figLatTop}[4][0.50]{\begin{figure}[t]
+\sidecaption
+\includegraphics[scale=#1]{#2/#3}\caption{#4}\label{#3}
+\end{figure}}
+
+\newcommand{\figLat}[4][0.50]{\begin{figure}[b]
+\sidecaption
+\includegraphics[scale=#1]{#2/#3}\caption{#4}\label{#3}
+\end{figure}}
+
+%%% Elementos adaptativos
+\newcommand{\naoTerminal}[1]{\lstinline[style=antlr]{#1}}
+\newcommand{\terminal}[1]{`\lstinline[style=antlr]{#1}'}
+\newcommand{\uml}[1]{\lstinline{#1}}
+\newcommand{\codigo}[1]{\lstinline{#1}}
+\newcommand{\uba}[1]{\lstinline{#1}}
+\newcommand{\instancia}[1]{\lstinline{#1}}
+\newcommand{\funcao}[1]{\lstinline{#1}}
+\newcommand{\estado}[1]{\lstinline{#1}}
+\newcommand{\simbolo}[1]{\lstinline{#1}}
+\newcommand{\regra}[1]{``\lstinline{#1}''}
+\newcommand{\acao}[1]{``\lstinline{#1}''}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bibPasta}{../projeto-git/bib}

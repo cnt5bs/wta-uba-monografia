@@ -1,0 +1,13 @@
+dist
+fig
+*.aux
+*.idx
+*.log
+*.out
+*.gz
+*.toc
+*.txss
+*.cls
+*.pdf
+*.*~
+extra

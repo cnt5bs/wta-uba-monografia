@@ -1,0 +1,14 @@
+\section{Projeto da LUBA}
+\label{sec:isv:antlr}
+
+Como já apontado por Pelegrini~\cite{pelegrini:2009}, "uma linguagem não é capaz de se auto-modificar", o que poderia ser sugerido pela expressão linguagem adaptativa. Por este motivo, a linguagem LUBA não é uma linguagem adaptativa; é uma linguagem para programação adaptativa, especificamente projetada para a apresentação de conceitos de modelagem de software biologicamente inspirado.
+
+Por outro lado, a implementação de uma linguagem deve ser feita por meio da construção de um programa que reaja, de forma apropriada, às diferentes cadeias que lhe são fornecidas como entrada. Uma categoria de tais programas é conhecida por tradutor, pois converte cadeias de uma linguagem para outra. Neste trabalho, especificações de autômatos serão escritas na linguagem LUBA e traduzidas para a linguagem Groovy.
+
+E como o programa de tradução funciona? Em primeiro lugar, ele deve ser capaz de reconhecer cada trecho de uma especificação de autômato. Por exemplo, a entrada \simbolo{(q1,a)->q2} deve ser reconhecida com uma regra de transição não adaptativa que leva o autômato da configuração \simbolo{(q1,a)} para o estado \estado{q2}. Concluído o reconhecimento, o tradutor deverá realizar uma operação apropriada, como \codigo{traduzirRegra("q1", "a", "q2")}.
+
+A parte de um tradutor que reconhece linguagens é chamada de analisador sintático. Sintaxe se refere à regras que governam a relação de pertinência de uma linguagem. Utilizam-se gramáticas para especificar a sintaxe de uma linguagem. Uma gramática é um conjunto de regras, cada uma delas expressando a estrutura da cadeia de símbolos de entrada. Diferentes ferramentas para ajudar na programação de analisadores sintáticos a partir de gramáticas foram produzidas ao longo da história e ANTLR é uma delas~\cite{parr:2013}. Em linhas gerais, a ferramenta ANTLR4 produz um analisador sintático a partir de uma gramática escrita na linguagem ANTLR. No caso da LUBA, o processo de utilização da ferramenta ANTLR4 segue o modelo representado no diagrama de atividades UML da Fig~\ref{fig-antlr-1-dat}. Retângulos denotam os artefatos de entrada e de saída da análise sintática (denotada por cantos arredondados). As setas representam fluxos de entrada e de saída dos artefatos.
+
+   \figLatHere[0.6]{\itaPastaFig}{fig-antlr-1-dat}{Diagrama de atividades UML da geração do analisador sintático a partir da gramática LUBA. O processo de análise sintática é realizado pela ferramenta ANTLR4.}
+
+Mais especificamente, quais são os elementos sintáticos da linguagem LUBA? É isso que será tratado na próxima seção, seguindo as diretrizes de projeto propostas por Parr~\cite{parr:2007}.

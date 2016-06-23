@@ -1,0 +1,204 @@
+\section{Geração de Autômatos UBA}
+\label{sec:isv:geracao}
+
+Embora respeitando o modelo formal de um autômato adaptativo, o projeto do analisador semântico de especificações LUBA envolve uma etapa de natureza criativa, artística. Silva reforça esta posição, enfatizando a dificuldade de se sistematizar o projeto desta etapa dos programas de tradução:
+
+   \begin{quote}
+   ``Devido a não existir um padrão para representar a semântica estática de uma linguagem, bem como pela quantidade e tipos de análise variarem de uma linguagem para outra, implementar a análise semântica torna-se uma tarefa não muito bem definida''~\cite{silva:2011}.
+   \end{quote}
+
+Com a ajuda da ferramenta ANTLR4, torna-se possível mecanizar a escrita do código que implementa a análise sintática de especificações LUBA. O diagrama UML apresentado na Fig~\ref{fig-antlr-2-dat} revela como este código se integra na estrutura do programa de geração de UBAs. A linha com um losango conectando a classe \uml{Analisador Sintático LUBA} com a classe \uml{Analisador Semântico LUBA} representa a ideia de constituição: o analisador sintático é constituido, estruturalmente, por um analisador semântico. Da mesma forma interpreta-se a conexão entre a classe \uml{Gerador UBA} e o analisador sintático. Ou seja, a classe dos geradores de UBA absorve o analisador sintático na sua estrutura, originando o programa que traduz especificações de autômatos LUBA em máquinas virtuais UBA.
+
+      \figTop[0.6]{\itaPastaFig}{fig-antlr-2-dat}{Diagrama UML revelando a estrutura de classes do \uml{Gerador UBA}.}
+
+Quando em operação, o gerador de UBAs traduz especificações LUBA em máquinas virtuais UBA, programadas na linguagem Groovy (Fig~\ref{fig-antlr-3-dat}). É o modelo de geração de máquinas UBA que será detalhado na próxima seção.
+
+      \figLatHere[0.6]{\itaPastaFig}{fig-antlr-3-dat}{Diagrama de atividades UML da geração de uma máquina virtual UBA a partir da especificação LUBA de um autômato. O processo de tradução é realizado pelo \uml{Gerador UBA}.}
+
+\subsection{Análise Semântica de Especificações LUBA}
+
+Retomando a primeira regra de produção da gramática LUBA (apresentada na Seção~\ref{sec:isv:gramatica}), tem-se:
+
+\begin{lstlisting}[style=antlr]
+luba : UBA idClasse ABBL declaracao* FEBL ;
+\end{lstlisting}
+
+De forma mecânica, a ferramenta ANTLR4 produz o código do analisador sintático. A cada não-terminal da gramática processada, ele gera um par de métodos de entrada e de saída (do não-terminal). O corpo destes métodos é que devem implementar o modelo semântico da linguagem LUBA. Assim, par-e-par com o não-terminal \naoTerminal{luba}, existem os métodos \codigo{enterLuba()} e \codigo{exitLuba()}. Por uma decisão de projeto, apenas o primeiro método será utilizado para instanciar um novo objeto (semântico) da classe \codigo{Uba}:
+
+\begin{lstlisting}
+@Override
+public void enterLuba(UbaParser.LubaContext ctx) {
+   novaUba = new gerador.Uba()
+}
+def novaUba // variável que referencia a "nova" uba
+\end{lstlisting}
+
+   \begin{quote}
+   \textit{Observação para a Comissão do WTA: a parte do texto a seguir está INCOMPLETA e contém apenas as ideias e código centrais. O texto precisa ser refinado! Isto se aplica para as seções \ref{sec:isv:geracao-regra}, \ref{sec:isv:geracao-funcao}, \ref{sec:isv:geracao-consulta}, \ref{sec:isv:geracao-remocao} e \ref{sec:isv:geracao-estados}.}
+   \end{quote}
+
+\subsection{Geração de Regra Adaptativa}
+\label{sec:isv:geracao-regra}
+
+\begin{lstlisting}[style=antlr]
+decRegra :
+	cfa?
+	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR SETA decEstDst
+	cfp?
+	;
+\end{lstlisting}
+
+\begin{lstlisting}
+@Override
+public void exitDecRegra(UbaParser.DecRegraContext ctx) {
+   def cfa = ""
+   if (ctx.cfa()) {
+        cfa = ctx.cfa().idFuncao().getText()
+   }
+   def origem = ctx.decEstOrg().idEstado().getText()
+   def estimulo = ""
+   if (ctx.idSimbolo()) {
+        estimulo = ctx.idSimbolo().getText()
+   }
+   def destino = ctx.decEstDst().idEstado().getText()
+   def cfp = ""
+   if (ctx.cfp()) {
+        cfp = ctx.cfp().idFuncao().getText()
+   }
+   novaUba.incorporarRegraAdaptativa(cfa, origem, estimulo, destino, cfp)
+}
+\end{lstlisting}
+
+\subsection{Geração de Função Adaptativa}
+\label{sec:isv:geracao-funcao}
+
+Retomando o exemplo apresentado na Seção~\ref{sec:isv:regra-adaptativa} ...
+
+\begin{lstlisting}
+uba Exemplo2 {
+   fx => (>q1, a) -> !q1
+   (q1, ) -> q2
+   (q2, ) -> !q3
+	<!-- restante da especificação -->
+}
+\end{lstlisting}
+
+Em seguida, a instrução contém uma chamada da função adaptativa \lstinline|fx|. Chamadas de tais funções serão refinadas na Seção~\ref{sec:isv:chamada-funcao-adaptativa}. Além de vincular os identificadores de estados, a seção de regras da classe de dispositivos adaptativos também introduz as seguintes informações na tabela de transições de \lstinline|a2|:
+
+\begin{center}\begin{tabular}{c c c c c c c}
+Identificador   & Tipo  & CFA    & Corrente & Entrada & Seguinte & CFP \\
+\hline
+\lstinline|t1|	& Transição & fx  & \lstinline|q1| & \lstinline|a| & \lstinline|q1| & \\
+\lstinline|t2|	& Transição &   & \lstinline|q1| & & \lstinline|q2| & \\
+\lstinline|t3|	& Transição &   & \lstinline|q2| & & \lstinline|q3| & \\
+\end{tabular}\end{center}
+
+\begin{lstlisting}[style=antlr]
+decFuncao : idFuncao
+	ABBL
+	seqConsultas?
+	seqRemocoes?
+	seqInsercoes?
+	FEBL
+	;
+\end{lstlisting}
+
+\begin{lstlisting}
+@Override
+public void enterDecFuncao(UbaParser.DecFuncaoContext ctx) {
+   funcaoAdaptativa = new gerador.FuncaoAdaptativa()
+   def funcaoId = ctx.idFuncao().getText()
+   funcaoAdaptativa.cabecalho( funcaoId )
+}
+def funcaoAdaptativa
+
+@Override
+public void exitDecFuncao(UbaParser.DecFuncaoContext ctx) {
+   funcaoAdaptativa.encerrar()
+   novaUba.incorporarFuncao(funcaoAdaptativa)
+}
+\end{lstlisting}
+
+\subsection{Geração de Ação de Consulta}
+\label{sec:isv:geracao-consulta}
+
+Retomando o exemplo apresentado na Seção~\ref{sec:isv:chamada-funcao-adaptativa} ...
+
+Desta maneira, monta-se a tabela de símbolos para a execução da função adaptativa \lstinline|fx|:
+
+  \begin{center}\begin{tabular}{c c c c c }
+  Identificador   & Tipo  & Escopo    & Referência \\
+  \hline
+  \lstinline|@x|	& Estado & LOCAL  & \lstinline|q1| \\
+  \lstinline|@y|	& Estado & LOCAL  & \lstinline|q3| \\
+  \end{tabular}\end{center}
+
+\begin{lstlisting}[style=antlr]
+acaoConsulta : BARRA padraoRegra BARRA ;
+\end{lstlisting}
+
+\begin{lstlisting}
+@Override
+public void enterAcaoConsulta(UbaParser.AcaoConsultaContext ctx) {
+   acao = new gerador.AcaoConsulta()
+}
+def acao
+\end{lstlisting}
+
+\subsection{Geração de Ações de Remoção}
+\label{sec:isv:geracao-remocao}
+
+Retomando o exemplo apresentado na Seção~\ref{sec:isv:chamada-funcao-adaptativa} ...
+
+Embora não ocorra alteração na tabela de estados da instância \instancia{a2}, a situação final da sua tabela de transições se altera para:
+
+   \begin{center}\begin{tabular}{c c c c c c c}
+   Identificador   & Tipo  & CFA    & Corrente & Entrada & Seguinte & CFP \\
+   \hline
+   \lstinline|t1|	& Transição & fx  & \lstinline|q1| & \lstinline|a| & \lstinline|q1| &
+   \end{tabular}\end{center}
+
+\subsection{Geração de Estados}
+\label{sec:isv:geracao-estados}
+
+Retomando o exemplo apresentado na Seção~\ref{sec:isv:subjacente} ...
+
+\begin{lstlisting}
+uba Exemplo1 {
+	( >q1, a ) -> q1
+	( q1, b ) -> q2
+	( q2, c ) -> !q3
+}
+\end{lstlisting}
+
+Todas estas observações podem ser representadas em uma tabela de símbolos:
+
+\begin{center}\begin{tabular}{c c c c c}
+Identificador   & Tipo  & Escopo    & Inicial & Final \\
+\hline
+\lstinline|q1|	& Estado & INSTÂNCIA  & S & N \\
+\lstinline|q2|	& Estado & INSTÂNCIA  & N & N \\
+\lstinline|q3|	& Estado & INSTÂNCIA  & N & S \\
+\end{tabular}\end{center}
+
+\begin{quote}\textit{(Por exemplo, considere a seguinte regra da gramática, referente à declaração de um novo estado de dispositivo:)}\end{quote}
+
+\begin{lstlisting}[style=antlr]
+estadoInstancia : ( INICIAL | FINAL )? idEstado ;
+\end{lstlisting}
+
+\begin{lstlisting}
+@Override
+public void exitEstadoInstancia(UbaParser.EstadoInstanciaContext ctx) {
+   def estadoId = ctx.idEstado().getText();
+   novaUba.incorporarEstado(estadoId);
+   if (ctx.INICIAL()) {
+        novaUba.inicial(estadoId)
+   }
+   if (ctx.FINAL()) {
+        novaUba.terminal(estadoId);
+   }
+   estadoInstancia = estadoId
+}
+\end{lstlisting}
+

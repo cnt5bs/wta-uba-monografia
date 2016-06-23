@@ -1,0 +1,84 @@
+\documentclass[12pt,graybox,envcountchap,sectrefs]{svmono}
+
+
+%%% Para uso de figuras neste documento.
+%%% Deve ser redefinido para gerar a monografia
+\newcommand{\geralPasta}{../geral}
+%%% Edu
+\newcommand{\eduPasta}{../edu}
+\newcommand{\eduPastaFig}{\eduPasta/fig}
+%%% Francisco
+\newcommand{\fraPasta}{../fra}
+\newcommand{\fraPastaFig}{\fraPasta/fig}
+%%% Italo
+\newcommand{\itaPasta}{../ita}
+\newcommand{\itaPastaFig}{\itaPasta/fig}
+%%% Geral
+\input{\geralPasta/Z.Comando}
+
+\begin{document}
+
+\input{\geralPasta/0.Identificacao}
+
+\mainmatter
+
+\input{\geralPasta/B.1.Introducao}
+	%%% objetivos do texto
+	%%% resultados esperados
+
+\input{\geralPasta/P.1.Parte}
+	\input{\eduPasta/1.Cap/capComputacaoBioinspirada}
+	%%% técnicas de programação bioinspirada
+	%%% nossa técnica é diferente, baseada em semiótica
+	%%% link com MTS
+	\input{\eduPasta/2.Cap/capMTS}
+	\input{\itaPasta/1.Cap/capAdaptatividade}
+	%%% existem várias técnicas computacionais
+	%%% escolha recai sobre adaptatividade
+	%%% \input{edu/capAreaUso}
+	%%% \input{ita/capAreaUso}
+
+\input{\geralPasta/P.2.Parte}
+	\input{\itaPasta/2.Cap/capLUBA}
+	\input{\itaPasta/3.Cap/capExecucaoUBA}
+
+\input{\geralPasta/P.3.Parte}
+	\input{\eduPasta/3.Cap/capUbaCelular}
+	\input{\eduPasta/4.Cap/capUbaOrganela}
+	\input{\eduPasta/5.Cap/capUbaAnimal}
+	%%% \input{edu/capMTSDescricao}
+	%%% texto do mestrado
+	%%% \include{ita/capUBA}
+	% % % \input{fra/capUBA2}
+	%%% recuperar parte do artigo publicado
+
+\input{\geralPasta/P.4.Parte}
+	\chapter{Usos dos Resultados}
+	\label{cap:resultados}
+	\input{\geralPasta/B.5.Aplicacoes}
+	\input{\fraPasta/1.Cap/secCatalogo}
+
+	%%% \input{edu/capAplysia}
+	%%% lembrar do "livro" Biorobotics (Barbara Webb)
+
+\input{\geralPasta/B.7.Conclusao}
+	\input{\eduPasta/6.Cap/capConclusao}
+
+\input{\geralPasta/C.1.Apendice}
+	\input{\itaPasta/4.Cap/capLUBA}
+	\input{\itaPasta/4.Cap/capGerador}
+	\input{\itaPasta/4.Cap/capAntlr4}
+	\input{\itaPasta/4.Cap/capUml}
+
+\backmatter
+
+	\input{\geralPasta/C.3.Glossario}
+	\input{\geralPasta/C.4.Solucoes}
+	%%%\input{geral/C.2.Referenc}
+
+    % Pasta de bibliografia deve ser relativa à ``dist'':
+    \bibliographystyle{\bibPasta/spphys}
+	\bibliography{\bibPasta/bibliografia}
+	\printindex
+
+\end{document}

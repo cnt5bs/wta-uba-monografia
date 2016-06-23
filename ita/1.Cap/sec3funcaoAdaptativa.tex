@@ -1,0 +1,123 @@
+\section{Funções Adaptativas}
+\label{sec:isv:chamada-funcao-adaptativa}
+
+Chamadas de funções adaptativas podem afetar a topologia do espaço de regras do autômato durante o processo de reconhecimento de uma cadeia de símbolos de entrada. Para suportar a declaração de funções adaptativas, a linguagem LUBA deverá oferecer recursos para a especificação de ações de consulta, de remoção e de inserção. Na gramática LUBA, a produção do não-terminal \naoTerminal{declaracao} se altera com a nova alternativa \naoTerminal{decFuncao}:
+
+\begin{lstlisting}[style=antlr]
+declaracao : decRegra | decFuncao ;
+
+   decFuncao : idFuncao
+   	ABBL seqConsultas? seqRemocoes? seqInsercoes? FEBL ;
+\end{lstlisting}
+
+\noindent
+Por conseguinte, a declaração de uma função adaptativa tem início com a sua identificação seguida de um bloco de sequências de ações adaptativas, delimitado por um par de marcadores (no nível léxico, tratam-se doa sinal de abre/fecha-chaves, respectivamente). Dentro do bloco da função, opcionalmente listam-se as sequências de consultas, remoções e inserções. A sequência de consultas tem a forma estabelecida pelo não-terminal \naoTerminal{seqConsultas}:
+
+\begin{lstlisting}[style=antlr]
+seqConsultas : CONSULTAS acaoConsulta* ;
+
+   acaoConsulta : BARRA padraoRegra BARRA ;
+\end{lstlisting}
+
+No nível léxico, a palavra-reservada \terminal{consultas} marca o começo de uma sequência de ações de consulta, denotadas por um padrão de regra (no estilo de expressões regulares). Um formato semelhante se aplica às ações de remoção e de inserção, alterando-se apenas a palavra-reservada. Por exemplo, a seguinte declaração de ações adaptativas na função \funcao{fx} complementa a classe de dispositivos \uba{Exemplo2}:
+
+\begin{lstlisting}
+uba Exemplo2 {
+   fx => (>q1, a) -> q1
+   (q1, ) -> q2
+   (q2, ) -> !q3
+   <!-- função adaptativa -->
+   fx {
+      consultas
+      / ( @x, )-> q2 /
+      / ( q2, )-> @y /
+      remocoes
+      / ( @x, ) -> q2 /
+      / ( q2, ) -> @y /
+      insercoes
+      / ( @x, b ) -> ^0 /
+      / ( ^0, b ) -> ^1 /
+      / ( ^1,   ) -> q2 /
+      / ( q2,   ) -> ^2 /
+      / ( ^2, c ) -> ^3 /
+      / ( ^3, c ) -> ^4 /
+      / ( ^4, c ) -> @y /
+   }
+}
+\end{lstlisting}
+
+Mas qual é o efeito da realização das ações adaptativas que constituem o corpo da função \funcao{fx}?
+
+\subsection*{Ações de Consulta}
+
+Ações de consulta fazem uso de padrões para identificar regras de transição que exibem determinadas propriedades durante a operação do autômato. O formato típico do padrão de uma regra em ações de consulta é, essencialmente, uma par constituído pela configuração do autômato em um determinado instante de operação (estado corrente/símbolo de entrada) e o correspondente estado seguinte. O padrão de símbolo de entrada (opcional no padrão de configuração) consiste apenas do seu identificador:
+
+\begin{lstlisting}[style=antlr]
+padraoRegra : padraoConfig SETA padraoDestino ;
+
+   padraoConfig :
+      ABPAR padraoOrigem VIRGULA padraoSimbolo? FEPAR ;
+
+      padraoSimbolo : IDENTIFICADOR ;
+
+      padraoOrigem : padraoEstado ;
+
+      padraoDestino : padraoEstado ;
+
+         padraoEstado :
+            estadoLocal | estadoInstancia | estadoGerado ;
+\end{lstlisting}
+
+\noindent
+Já os padrões do estado de origem (corrente) e de destino (seguinte) podem ser expressos ou como uma variável local ou como um dos estados já existentes na instância ou, ainda, como um novo estado (esta situação será discutida na Seção~\ref{sec:acao:insercao}). Um padrão envolvendo estados da instância estabelece um referencial para identificar grupos de regras a partir dos estados locais, prefixados pelo símbolo \terminal{@}. Por exemplo, o que acontece quando o autômato \uba{a2} realiza a ação \acao{/(@x,)->q2/} no contexto de uma consulta? Esta forma de ação adaptativa vincula o identificador \estado{x} a uma variável local à função e cujo valor depende da existência de alguma regra adaptativa que combine com a forma da ação. Neste caso, a regra adaptativa \regra{fx=>(>q1,a)->q1} deverá ser considerada para que se determine o valor de \estado{x}: igual à \estado{q1}. Usando um raciocínio similar, o valor da variável identificada por \estado{y} será \estado{q3}. O efeito da execução de operações de consulta é a vinculação de variáveis de estado locais à identificadores com subsequente valoração por combinação com as regras adaptativas de um autômato.
+
+Uma vez estabelecidos os valores da variáveis locais \estado{x} e \estado{y}, como eles serão utilizados?
+
+\subsection*{Ação de remoção}
+
+As ações de consulta identificam um subconjunto das regras do autômato durante um momento de operação. É sobre este subconjunto que as ações de remoção atuam. Os seus efeitos consistem da eliminação de regras de acordo com um padrão que segue o mesmo formato daquelas de consulta:
+
+\begin{lstlisting}[style=antlr]
+seqRemocoes : REMOCOES acaoRemocao*;
+
+   acaoRemocao : BARRA padraoRegra BARRA ;
+\end{lstlisting}
+
+\noindent
+No nível léxico, as ações de remoção encontram-se imediatamente após o terminal \terminal{remoções}. Desta maneira, no contexto das ações de remoção, a forma da ação \acao{/(@x,)->q2/} refere-se a um padrão de regra a ser removida do espaço de regras do autômato, considerando que o valor de \estado{x} é igual a \estado{q1} (vinculação produzida pelas ações de consulta). Considerando a tabela de símbolos construída pelos operadores de consulta, as remoções se encarregam de eliminar regras de transições de uma instância de autômatos da classe \uba{Exemplo2}. Uma estratégia de combinação de padrões e de regras mais uma vez é utilizada, ocorrendo a remoção da transição existente entre os estados \estado{q1} e \estado{q2}. A modificação topológica do dispositivo \instancia{a2} pode ser visualizada de acordo com o diagrama mostrado na Fig.~\ref{fig-cenario-Exemplo2-0-delta-a1-manual}.
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-0-delta-a1-manual}{Configuração do dispositivo \lstinline|a2| após a remoção da transição $(q_1,\epsilon)\mapsto q_2$. Em destaque, o estado corrente do autômato.}
+
+A execução da próxima ação de remoção, elimina a transição entre os estados \estado{q2} e \estado{q3}, como ilustrado na Fig.~\ref{fig-cenario-Exemplo2-0-delta-a2-manual}. Removidas as transições desejadas do autômato durante a sua operação, novas regras ainda podem ser introduzidas. É este o efeito que se espera das ações de inserção.
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-0-delta-a2-manual}{Configuração do dispositivo \lstinline|a2| após a remoção da transição $(q_2,\epsilon)\mapsto q_3$.}
+
+\subsection*{Ação de inserção}
+\label{sec:acao:insercao}
+
+\begin{lstlisting}[style=antlr]
+seqInsercoes : REMOCOES acaoInsercao*;
+
+   acaoInsercao : BARRA padraoRegra BARRA ;
+\end{lstlisting}
+
+Finalmente, a ação adaptativa \acao{/(@x,b)->^1/} é realizada no contexto de inserção. O efeito de ações de inserção é o de adicionar regras de transição no espaço de regras do autômato. Um dos recursos oferecidos para a realização de tais ações é o mecanismo de geração de identificadores, denotado pelo símbolo \lstinline|^|. Por exemplo, a execução da primeira ação de inserção faz o mecanismo de geração adicionar um novo estado no autômato \instancia{a2} automaticamente. Para efeitos de legibilidade, o novo estado é gerado com o prefixo \estado{g}. Assim, quando se completa esta ação de inserção, a instância \instancia{a2} modifica-se para uma forma como aquela graficamente representada na Fig.~\ref{fig-cenario-Exemplo2-1-cfa-a3-manual}.
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-1-cfa-a3-manual}{Configuração do autômato \instancia{a2} após a inserção da transição $(q_1,b)\mapsto g_4$.}
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-1-cfa-a4-manual}{Configuração do autômato \instancia{a2} após a inserção da transição $(g_4,b)\mapsto g_5$.}
+
+A inserção de duas novas regras de transição são ilustradas a seguir. Na Fig~\ref{fig-cenario-Exemplo2-1-cfa-a4-manual} observa-se que, após inserir um novo estado \estado{g5} no autômato, também adiciona-se uma transição conectando com o par (\estado{q1}, \simbolo{b}). A Fig~\ref{fig-cenario-Exemplo2-1-cfa-a5-manual} apresenta o resultado da inserção de uma transição em vazio envolvendo os estados \estado{g5} e \estado{q2}.
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-1-cfa-a5-manual}{Configuração do autômato \instancia{a2} após a inserção da transição $(g_5,\epsilon)\mapsto q_2$.}
+
+Ao término da execução de todas as ações de inserção especificadas na função \funcao{fx}, o autômato passa a exibir a configuração ilustrada na Fig.~\ref{fig-cenario-Exemplo2-1-cfp-manual}. Ao processar o símbolo \simbolo{a}, cinco novos estados foram introduzidos na instância \uba{a2}. Além disso, ele adquiriu a capacidade de reconhecer duas ocorrências consecutivas do símbolo \simbolo{b} e três do símbolo \simbolo{c}.
+
+   \figLatHere[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-1-cfp-manual}{Configuração do autômato \uba{a2} após a execução de todas as ações adaptativas de inserção especificadas na função \lstinline|fx| ao reconhecer um símbolo \lstinline!a!.}
+
+Encerradas as alterações especificadas pela função adaptativa \funcao{fx}, realiza-se a transição de estado considerando aquele corrente e o símbolo a ser processado que habilitaram a chamada de \funcao{fx}. Se houver uma chamada para outra função adaptativa (\textit{after}), uma vez mais a topologia do autômato poderá ser alterada. Por exemplo, ao processar o segundo símbolo $a$ da cadeia $aa$, o autômato adquire uma estrutura de estados e de transições com a forma mostrada na Fig.~\ref{fig-cenario-Exemplo2-3-cfp-manual}. Esta topologia do autômato não mais se alterará, uma vez que o sufixo da cadeia de símbolos de entrada é $b^4c^6$ e não contém o símbolo $a$. Qual a conclusão? Partindo-se de um autômato com a configuração inicial mostrada na Fig.~\ref{fig-cenario-Exemplo2-0-delta}, após sucessivas adaptações desencadeadas pelo padrão de símbolos de entrada, ele adquire a capacidade de reconhecer cadeias da linguagem descrita pela expressão $\mathbf{a^nb^{2n}c^{3n}}$. Este é um exemplo que demonstra o conceito de adaptatividade.
+
+   \figTop[0.3]{\itaPastaFig}{fig-cenario-Exemplo2-3-cfp-manual}{Configuração do autômato \lstinline|a2| após a execução de todas as ações adaptativas de inserção especificadas na função \funcao{fx} ao reconhecer dois símbolos \lstinline!a!.}
+
+Isto conclui a apresentação do conceito de adaptatividade segundo a óptica da semântica operacional. A seguir, serão detalhados o projeto da linguagem LUBA e do modelo de execução dos autômatos por ela especificados.
+

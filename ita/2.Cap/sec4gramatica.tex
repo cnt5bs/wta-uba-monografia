@@ -1,0 +1,103 @@
+\section{Gramática LUBA}
+\label{sec:isv:gramatica}
+
+A especificação ANTLR da gramática da linguagem LUBA inicia com a definição do não-terminal \naoTerminal{luba}:
+
+\begin{lstlisting}[style=antlr]
+luba : UBA idClasse ABBL declaracao* FEBL ;
+\end{lstlisting}
+
+\noindent
+Uma especificação de autômato \terminal{uba} introduz o nome de uma nova classe de autômatos. Em seguida, insere-se uma sequência de declarações no seu escopo (no nível léxico, um par de abre/fecha-chaves delimita a região de escopo), sejam elas declarações de regras de transição, sejam elas declarações de funções adaptativas:
+
+\begin{lstlisting}[style=antlr]
+declaracao : decRegra | decFuncao ;
+\end{lstlisting}
+
+\noindent
+E como deve ser feita a declaração de uma regra de transição?
+
+\subsection*{Declaração de Regras de Transição}
+
+Uma declaração de regra de transição deve suportar a especificação do movimento de um estado de origem para um estado de destino, eventualmente no contexto da presença de um particular símbolo de entrada. No caso de uma regra adaptativa, pode ocorrer a chamada de uma função anterior e posterior, que serão tratadas na seção seguinte:
+
+\begin{lstlisting}[style=antlr]
+decRegra :
+	cfa?
+	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR SETA decEstDst
+	cfp?
+	;
+\end{lstlisting}
+
+\noindent
+No nível léxico, um par de abre/fecha-parênteses estabelece a configuração de transição de estado de um autômato. Tanto o estado corrente (indicado como origem da transição) quanto o estado seguinte (indicado como estado de destino da transição) são prefixados por um indicador de inicial ou pertencer ao conjunto de estados finais, respectivamente:
+
+\begin{lstlisting}[style=antlr]
+decEstOrg : INICIAL? idEstado ;
+decEstDst : FINAL? idEstado ;
+\end{lstlisting}
+
+\noindent
+Tanto o identificador de estado quanto o identificador de símbolos e de funções adaptativas seguem o formato tradicional de identificadores: uma letra seguida de diversas letras e dígitos (\terminal{IDENTIFICADOR}):
+
+\begin{lstlisting}[style=antlr]
+idEstado : IDENTIFICADOR ;
+idSimbolo : IDENTIFICADOR ;
+idFuncao : IDENTIFICADOR ;
+\end{lstlisting}
+
+Finalmente, as chamadas de funções adaptativas. Na declaração de uma regra de transição, elas aparedem apenas como identificadores:
+
+\begin{lstlisting}[style=antlr]
+cfa : idFuncao FANT ;
+cfp : FPOS idFuncao ;
+\end{lstlisting}
+
+\noindent
+O corpo de uma função adaptativa é constituído por uma sequência de ações adaptativas, o que será tratado a seguir.
+
+\subsection*{Declaração de Funções Adaptativas}
+
+A declaração de uma função adaptativa assume um importante papel nos modelos biomiméticos, uma vez que os seus efeitos é que caracterizam a presença da adaptatidade nos comportamentos que podem ser observados. A declaração deve identificar a função e explicitar as sequências de ações de consulta, de remoção e de inserção:
+
+\begin{lstlisting}[style=antlr]
+decFuncao : idFuncao
+	ABBL seqConsultas? seqRemocoes? seqInsercoes? FEBL ;
+seqConsultas : CONSULTAS acaoConsulta*;
+seqRemocoes : REMOCOES acaoRemocao*;
+seqInsercoes : INSERCOES acaoInsercao*;
+\end{lstlisting}
+
+A forma sintática de cada ação adaptativa, por sua vez, segue o mesmo formato. As diferenças encontram-se no modelo semântico, que será detalhado na Seção~\ref{sec:isv:geracao}:
+
+\begin{lstlisting}[style=antlr]
+acaoConsulta : BARRA padraoRegra BARRA ;
+acaoRemocao : BARRA padraoRegra BARRA ;
+acaoInsercao : BARRA padraoRegra BARRA ;
+\end{lstlisting}
+
+Nas diferentes ações adaptativas, utilizam-se dois padrões: um que se refere ao padrão de configuração do autômato em operação e outro que se refere ao padrão de destino da transição:
+
+\begin{lstlisting}[style=antlr]
+padraoRegra : padraoConfig SETA padraoDestino ;
+\end{lstlisting}
+
+O padrão de configuração faz referência ao estado corrente (\naoTerminal{padraoOrigem}) e ao opcional símbolo a ser processado pelo autômato:
+
+\begin{lstlisting}[style=antlr]
+padraoConfig
+	: ABPAR padraoOrigem VIRGULA padraoSimbolo? 	FEPAR ;
+\end{lstlisting}
+
+Finalmente, tanto o padrão de origem quanto o de destino podem ser expressos como um estado de instância, local (prefixado por \terminal{@}) ou como um novo estado (prefixado por \terminal{^}):
+
+\begin{lstlisting}[style=antlr]
+padraoOrigem : padraoEstado ;
+padraoDestino : padraoEstado ;
+padraoEstado 	:
+					estadoInstancia
+					| estadoLocal
+					| estadoGerado ;
+\end{lstlisting}
+
+Esta gramática, expressa na linguagem ANTLR4, dirige a geração dos autômatos UBA, como será visto na próxima seção.
