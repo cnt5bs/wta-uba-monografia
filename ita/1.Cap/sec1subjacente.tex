@@ -22,6 +22,15 @@ uba : UBA idClasse ABBL declaracao* FEBL ;
 	idClasse : IDENTIFICADOR ;
 \end{lstlisting}
 
+\begin{lstlisting}[style=antlr]
+<<UbaParser.g4>>=
+uba : UBA idClasse ABBL declaracao* FEBL ;
+
+	declaracao : decRegra ;
+
+	idClasse : IDENTIFICADOR ;
+\end{lstlisting}
+
 Posteriormente a linguagem será estendida para acomodar a declaração de funções adaptativas. A especificação de um autômato subjacente não envolve a chamada de funções adaptativas; é suficiente que se especifique qual o par estado corrente/símbolo de entrada dispara a ocorrência da transição para o estado seguinte. Como parte do projeto da linguagem LUBA (e visando facilitar um pouco a escrita das especificações), o estado inicial deverá ser prefixado com \lstinline[style=antlr]'>', enquanto que o prefixo para os estados finais será \lstinline[style=antlr]'!'. Assumindo-se estas convenções, escreve-se a produção do não terminal \lstinline[style=antlr]!decRegra! da seguinte forma:
 
 \begin{lstlisting}[style=antlr]
