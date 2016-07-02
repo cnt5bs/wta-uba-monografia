@@ -1,0 +1,192 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI \discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI \discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{vincent06}
+J.F. Vincent, J. R. Soc. Interface (3), 471 (2006)
+
+\bibitem{benyus03}
+J.M. Benyus, \emph{Biomimética: inovação inspirada pela natureza} (Cultrix,
+  São Paulo, 2003)
+
+\bibitem{biomimicry01}
+B.~3.8.
+\newblock Learning efficiency from kingfishers.
+\newblock
+  \urlprefix\url{http://biomimicry.net/about/biomimicry/case-examples/transportation}.
+\newblock Acessado em 25/02/2014
+
+\bibitem{decastro06}
+L.N. de~Castro, Physics of Life Reviews (4), 1 (2007)
+
+\bibitem{webb01}
+B.~Webb, T.R. Consi, \emph{Biorobotics, methods and applications} (MIT Press,
+  Cambridge, 2001)
+
+\bibitem{mccarthy55}
+J.~McCarthy, AI Magazine \textbf{27}(4), 12 (2006)
+
+\bibitem{turing36}
+A.M. Turing, Proceedings of the London Mathematical Society \textbf{42}, 230
+  (1936)
+
+\bibitem{turing52}
+A.M. Turing, Philosophical Transactions of the Royal Society of London B:
+  Biological Sciences \textbf{237}, 37 (1952)
+
+\bibitem{boole}
+G.~Boole, \emph{An Investigation of the Laws of Thought: On which are Founded
+  the Mathematical Theories of Logic and Probabilities} (Walton and Maberly,
+  1854)
+
+\bibitem{Newmann:1945:FDR:1102046}
+J.v. Newmann, First draft of a report on the edvac.
+\newblock Tech. rep. (1945)
+
+\bibitem{hofstadter79}
+D.R. Hofstadter, \emph{Gödel, Escher, Bach: an eternal golden braid} (Basic
+  Book, New York, 1979)
+
+\bibitem{peirce08}
+C.~Peirce, \emph{Semiótica} (Perspectiva, São Paulo, 2008)
+
+\bibitem{peirce1940philosophical}
+C.~Peirce, J.~Buchler, \emph{Philosophical Writings of Peirce}.
+\newblock Dover books on philosophy (Dover Publications, 1940)
+
+\bibitem{turing36_errata}
+A.M. Turing, Proc. London Math. Soc. pp. 544--546 (1938)
+
+\bibitem{winfried}
+W.~Nöth, Galáxia \textbf{1}, 51 (2001)
+
+\bibitem{teoriaSignos_Santaella}
+L.~Santaella, \emph{A teoria geral dos signos: como as linguagens significam as
+  coisas} (Pioneira, 2000)
+
+\bibitem{noth95}
+W.~Nöth, \emph{Handbook of semiotics} (Indiana University Press, Bloomington,
+  1995)
+
+\bibitem{noth96}
+W.~Nöth, \emph{A semiótica no século XX} (Annablume, São Paulo, 1996)
+
+\bibitem{uexkull34}
+J.~von. Uexküll, in \emph{Instintive behavior: the development of a modern
+  concept}, ed. by C.H. Schiller (International Universities Press, New York,
+  1934), pp. 5--80
+
+\bibitem{uexkull82}
+J.~von. Uexküll, Semiotica \textbf{1}(42), 19 (1982)
+
+\bibitem{salthe85}
+S.N. Salthe, \emph{Evolving hierarchical systems: their structure and
+  representation} (Columbia University Press, New York, 1985)
+
+\bibitem{brooks99a}
+R.A. Brooks, in \emph{Cambrian intelligence, the early history of the new AI}
+  (MIT Press, Cambridge, 1999), pp. 79--101
+
+\bibitem{brooks99b}
+R.A. Brooks, in \emph{Cambrian intelligence, the early history of the new AI}
+  (MIT Press, Cambridge, 1999), pp. 133--186
+
+\bibitem{brooks99c}
+R.A. Brooks, in \emph{Cambrian intelligence, the early history of the new AI}
+  (MIT Press, Cambridge, 1999), pp. 110--131
+
+\bibitem{Jackson:2000:PFA:513720}
+M.~Jackson, \emph{Problem Frames: Analyzing and Structuring Software
+  Development Problems} (Addison-Wesley Longman Publishing Co., Inc., Boston,
+  MA, USA, 2001)
+
+\bibitem{parnas}
+D.L. Parnas, Commun. ACM \textbf{15}(12), 1053 (1972)
+
+\bibitem{queiroz07}
+J.~Queiroz, C.N. El-Hani, in \emph{Computação, cognição, semiose}, ed. by
+  J.~Queiroz, et~al. (EDUFBA, Salvador, BA, 2007), pp. 93--128
+
+\bibitem{thure04}
+T.~von. Uexküll, Galaxia (7), 25 (2004)
+
+\bibitem{thure92}
+T.~von. Uexküll, Semiotica \textbf{89}(4), 279 (1992)
+
+\bibitem{sebeok99}
+T.~Sebeok, Applied Semiotics \textbf{6/7}(3), 85 (1936)
+
+\bibitem{ziemke01}
+E.~Sharkey, T.~Ziemke, Semiotica \textbf{1/4}(134), 701 (2001)
+
+\bibitem{parnas72}
+D.L. Parnas, Communications of the ACM \textbf{15}(12), 1053 (1972)
+
+\bibitem{queiroz04}
+J.~Queiroz, \emph{Semiose segundo C. S. Peirce} (EDUC, São Paulo, 2004)
+
+\bibitem{italo}
+I.S. Vega, Arquiteturas de sistemas e tecnologias midiáticas (2015).
+\newblock Notas de aula sobre elementos arquiteturais de sistemas de software
+  do Programa de Pós-graduação TIDD/PUCSP.
+
+\bibitem{kandel06}
+E.R. Kandel, \emph{Em busca da memória: o nascimento de uma nova ciência da
+  mente} (Companhia das Letras, São Paulo, 2006)
+
+\bibitem{kandel00}
+E.R. Kandel, \emph{Principles of Neuroscience} (McGraw-Hill, New York, 2000)
+
+\bibitem{kandel06a}
+E.R. Kandel, The Biological Bulletin \textbf{210}, 174 (2006)
+
+\bibitem{kandel06b}
+E.R. Kandel, Learn. Mem. \textbf{13}, 397 (2006)
+
+\bibitem{kandel01}
+E.R. Kandel, Science \textbf{294}, 1030 (2004)
+
+\bibitem{kandel70}
+V.~Castellucci, H.~Pinsker, I.~Kupfermann, E.R. Kandel, Science
+  \textbf{167}(3926), 1745 (1970)
+
+\bibitem{zikopoulos12}
+P.~Zikopoulos, \emph{Understanding big data: analytics for enterprise class
+  hadoop and streaming data} (McGraw Hill, U.S.A., 2012)
+
+\bibitem{silver13}
+N.~Silver, \emph{O Sinal e o ruído} (Intrínseca, Rio de Janeiro, 2013)
+
+\bibitem{singer14}
+S.~P.W., F.~A., \emph{Cybersecurity and cyberwar: what everyone needs to know}
+  (Oxford University Press, New York, 2014)
+
+\bibitem{lent01}
+R.~Lent, \emph{Cem Bilhões de Neurônios: conceitos fundamentais de
+  neurociência} (Atheneu, Rio de Janeiro, 2001)
+
+\bibitem{gunn04}
+I.~Gunn, C.~Clive, \emph{James Joyce's Dublin: a topographical guide to the
+  Dublin of Ulysses} (Thames \& Hudson, New York, 2004)
+
+\bibitem{ridley99}
+M.~Ridley, \emph{Genoma: a autobiografia de uma espécie em 23 capítulos}
+  (Record, Rio de Janeiro, 1999)
+
+\bibitem{lodish12}
+H.L. et~al., \emph{Molecular Biology} (W. H. Freeman, Houndmills, 2012)
+
+\bibitem{chase12}
+I.~Chase, Scientific American Brasil (122), 76 (2012)
+
+\bibitem{vega:2015}
+I.S. Vega, C.E.P. de~Camargo, F.S. Marcondes, in \emph{Memórias do WTA 2015,
+  IX Workshop de Tecnologia Adaptativa}. Departamento de Engenharia de
+  Computação e Sistemas Digitais, USP (Laboratório de Linguagens e Técnicas
+  Adaptativas, 2015), pp. 87--90
+
+\end{thebibliography}

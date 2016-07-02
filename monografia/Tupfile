@@ -3,14 +3,15 @@ include_rules
 AUTOR=monografia
 DOC=wta-$(AUTOR)
 INPUT=$(DOC).tex
-OUTPUTTEX=$(PASTA_BASE)/dist
+OUTPUTTEX=../dist
 XELATEX=xelatex -output-directory=$(OUTPUTTEX)
+DST_FIG=fig
 
 : $(INPUT) | $(DST_FIG)/<figuras> |> \
     $(XELATEX) %f; \
     cd $(OUTPUTTEX); \
     bibtex %B; \
-    cd ../$(PROJETO_GIT)/$(AUTOR); \
+    cd ../../$(PROJETO_GIT)/$(AUTOR); \
     $(XELATEX) %f; \
     $(XELATEX) %f |> \
         $(OUTPUTTEX)/%B.pdf \
