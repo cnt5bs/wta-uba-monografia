@@ -1,0 +1,55 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: wta-monografia.aux
+The style file: ../../projeto-git/bib/spphys.bst
+Database file #1: ../../projeto-git/bib/bibliografia.bib
+Warning--entry type for "biomimicry01" isn't style-file defined
+--line 13 of file ../../projeto-git/bib/bibliografia.bib
+Warning--I didn't find a database entry for ""
+Warning--there's a number but no volume in vincent06
+Warning--there's a number but no volume in decastro06
+Warning--missing institution in Newmann:1945:FDR:1102046
+Warning--there's a number but no volume in thure04
+Warning--there's a number but no volume in chase12
+You've used 49 entries,
+            2812 wiz_defined-function locations,
+            861 strings with 9865 characters,
+and the built_in function-call counts, 16580 in all, are:
+= -- 1351
+> -- 238
+< -- 7
++ -- 147
+- -- 63
+* -- 772
+:= -- 1626
+add.period$ -- 7
+call.type$ -- 49
+change.case$ -- 6
+chr.to.int$ -- 0
+cite$ -- 54
+duplicate$ -- 1950
+empty$ -- 1862
+format.name$ -- 72
+if$ -- 3875
+int.to.chr$ -- 0
+int.to.str$ -- 49
+missing$ -- 393
+newline$ -- 161
+num.names$ -- 51
+pop$ -- 923
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 662
+stack$ -- 0
+substring$ -- 467
+swap$ -- 1254
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 5
+while$ -- 91
+width$ -- 51
+write$ -- 386
+(There were 7 warnings)

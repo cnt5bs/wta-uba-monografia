@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: wta-ita.aux
+The style file: ../../projeto-git/bib/spphys.bst
+Database file #1: ../../projeto-git/bib/bibliografia.bib
+Warning--entry type for "neto:2008" isn't style-file defined
+--line 378 of file ../../projeto-git/bib/bibliografia.bib
+Warning--I didn't find a database entry for "vega:2008"
+You've used 9 entries,
+            2812 wiz_defined-function locations,
+            645 strings with 5732 characters,
+and the built_in function-call counts, 3640 in all, are:
+= -- 361
+> -- 49
+< -- 3
++ -- 34
+- -- 13
+* -- 135
+:= -- 338
+add.period$ -- 6
+call.type$ -- 9
+change.case$ -- 10
+chr.to.int$ -- 3
+cite$ -- 9
+duplicate$ -- 432
+empty$ -- 344
+format.name$ -- 16
+if$ -- 824
+int.to.chr$ -- 0
+int.to.str$ -- 9
+missing$ -- 69
+newline$ -- 41
+num.names$ -- 9
+pop$ -- 189
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 194
+stack$ -- 0
+substring$ -- 116
+swap$ -- 309
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 18
+width$ -- 10
+write$ -- 87
+(There were 2 warnings)

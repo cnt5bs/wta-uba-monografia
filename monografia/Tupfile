@@ -3,7 +3,7 @@ include_rules
 AUTOR=monografia
 DOC=wta-$(AUTOR)
 INPUT=$(DOC).tex
-OUTPUTTEX=../dist
+OUTPUTTEX=.
 XELATEX=xelatex -output-directory=$(OUTPUTTEX)
 DST_FIG=fig
 

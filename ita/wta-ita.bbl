@@ -1,0 +1,55 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI \discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI \discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem{ramos:2009:lftmi}
+M.V.M. Ramos, J.J. Neto, I.S. Vega, \emph{Linguagens Formais: Teoria, Modelagem
+  e Implementação}, 1st edn. (Bookman, Porto Alegre, 2009).
+\newblock Pages = {656p}
+
+\bibitem{pelegrini:2009}
+E.J. Pelegrini, Códigos adaptativos e linguagem para programação adaptativa:
+  Conceitos e tecnologia.
+\newblock Dissertação de mestrado, v (2009)
+
+\bibitem{parr:2013}
+T.~Parr, \emph{The Definitive ANTLR 4 --- Reference} (Pragmatic Bookshelf,
+  2013)
+
+\bibitem{neto:bravo:2002}
+J.J. Neto, C.~Bravo, in \emph{Seventh International Conference on
+  Implementation and Application of Automata} (University of Tours, 2002), pp.
+  161--170
+
+\bibitem{dizero:2010}
+W.J. Dizeró, Formalismos adaptativos aplicados na modelagem de softwares
+  educaionais.
+\newblock Tese de doutorado, Escola Poltécnica da Universidade de São Paulo
+  (2010)
+
+\bibitem{neto:1998}
+J.J. Neto, M.K. Iwai, in \emph{XXIV Conferência Latinoamericana de
+  Informática} (Quito, 1998), pp. 136--146
+
+\bibitem{neto:2008}
+J.J. Neto.
+\newblock Uma breve introdução à adaptatividade e à tecnologia adaptativa
+  (2008).
+\newblock \urlprefix\url{http://www.cin.ufpe.br/~fdfd/}
+
+\bibitem{parr:2007}
+T.~Parr, \emph{The Definitive ANTLR Reference: Building Domain-Specific
+  Languages} (Pragmatic Bookshelf, 2007)
+
+\bibitem{silva:2011}
+S.R.B. da~Silva, Software adaptativo, método de projeto, representação
+  gráfica e implementação de linguagem de programação.
+\newblock Dissertação de mestrado, Software adaptativo, método de projeto,
+  representação gráfica e implementação de linguagem de programação
+  (2011)
+
+\end{thebibliography}
