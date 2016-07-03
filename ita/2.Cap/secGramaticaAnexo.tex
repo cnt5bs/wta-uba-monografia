@@ -6,14 +6,8 @@ options { tokenVocab=UbaLexer; }
 
 <<UbaParser::seção de declarações de regras>>
 <<UbaParser::declaração de regra adaptativa>>
-
-idEstado : IDENTIFICADOR ;
-idSimbolo : IDENTIFICADOR ;
-idFuncao : IDENTIFICADOR ;
-
-cfa : idFuncao FANT ;
-cfp : FPOS idFuncao ;
-
+<<UbaParser::identificadores de estados, símbolos e funções>>
+<<UbaParser::chamada de função adaptativa>>
 <<UbaParser::declaração de função adaptativa>>
 <<UbaParser::ações de consulta>>
 <<UbaParser::ações de remoção>>

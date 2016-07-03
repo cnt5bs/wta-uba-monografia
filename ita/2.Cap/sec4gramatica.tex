@@ -41,16 +41,28 @@ decEstDst : FINAL? idEstado ;
 Tanto o identificador de estado quanto o identificador de símbolos e de funções adaptativas seguem o formato tradicional de identificadores: uma letra seguida de diversas letras e dígitos (\terminal{IDENTIFICADOR}):
 
 \begin{lstlisting}[style=antlr]
-idEstado : IDENTIFICADOR ;
-idSimbolo : IDENTIFICADOR ;
-idFuncao : IDENTIFICADOR ;
+<<UbaParser::identificadores de estados, símbolos e funções>>=
+idEstado
+    : IDENTIFICADOR
+    ;
+idSimbolo
+    : IDENTIFICADOR
+    ;
+idFuncao
+    : IDENTIFICADOR
+    ;
 \end{lstlisting}
 
 Finalmente, as chamadas de funções adaptativas. Na declaração de uma regra de transição, elas aparedem apenas como identificadores:
 
 \begin{lstlisting}[style=antlr]
-cfa : idFuncao FANT ;
-cfp : FPOS idFuncao ;
+<<UbaParser::chamada de função adaptativa>>=
+cfa
+    : idFuncao FANT
+    ;
+cfp
+    : FPOS idFuncao
+    ;
 \end{lstlisting}
 
 \noindent
