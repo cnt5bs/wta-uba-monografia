@@ -55,24 +55,4 @@ Como se comporta o autômato \uba{a2} durante o processamento de uma cadeia de s
 Como no exemplo \uba{Exemplo1}, a função de transição  $\delta$ contém três pares, mas o primeiro deles introduz uma chamada da função adaptativa \funcao{fx}. Agora, qual deve ser a definição desta função de modo que \uba{a2} reconheça as cadeias denotadas pelas expressão $\mathbf{a^nb^{2n}c^{3n}}$? Um novo mecanismo se faz presente na linguagem LUBA: definição de funções adaptativas.
 
 
-\begin{lstlisting}
-<<Exemplo2::especificação da função adaptativa>>=
-fx {
-    consultas
-    / ( @x, )-> q2 /
-    / ( q2, )-> @y /
 
-    remoções
-    / ( @x, ) -> q2 /
-    / ( q2, ) -> @y /
-
-    inserções
-    / ( @x, b ) -> ^0 /
-    / ( ^0, b ) -> ^1 /
-    / ( ^1,   ) -> q2 /
-    / ( q2,   ) -> ^2 /
-    / ( ^2, c ) -> ^3 /
-    / ( ^3, c ) -> ^4 /
-    / ( ^4, c ) -> @y /
-}
-\end{lstlisting}

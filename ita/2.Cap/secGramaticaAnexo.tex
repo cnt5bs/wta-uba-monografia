@@ -5,7 +5,6 @@ parser grammar UbaParser;
 options { tokenVocab=UbaLexer; }
 
 <<UbaParser::seção de declarações de regras>>
-
 <<UbaParser::declaração de regra adaptativa>>
 
 idEstado : IDENTIFICADOR ;
@@ -15,41 +14,11 @@ idFuncao : IDENTIFICADOR ;
 cfa : idFuncao FANT ;
 cfp : FPOS idFuncao ;
 
-// Declaração de função adaptativa
-decFuncao : idFuncao
-	ABBL
-	seqConsultas?
-	seqRemocoes?
-	seqInsercoes?
-	FEBL
-	;
-seqConsultas : CONSULTAS acaoConsulta*;
-seqRemocoes : REMOCOES acaoRemocao*;
-seqInsercoes : INSERCOES acaoInsercao*;
-
-acaoConsulta : BARRA cfa? padraoRegra cfp? BARRA ;
-acaoRemocao : BARRA cfa? padraoRegra cfp? BARRA ;
-acaoInsercao : BARRA cfa? padraoRegra cfp? BARRA ;
-
-padraoRegra : padraoTransicao ;
-padraoTransicao : padraoConfig SETA padraoDestino ;
-padraoConfig
-	: ABPAR
-	padraoOrigem VIRGULA padraoEstimulo?
-	FEPAR
-	;
-padraoDestino
-	: padraoEstado
-	| padraoTransicao
-	;
-padraoOrigem
-	: padraoEstado
-	;
-padraoEstado
-	: estadoLocal
-	| estadoGerado
-	| estadoInstancia
-	;
+<<UbaParser::declaração de função adaptativa>>
+<<UbaParser::ações de consulta>>
+<<UbaParser::ações de remoção>>
+<<UbaParser::ações de inserção>>
+<<UbaParser::padrão de regra>>
 
 estadoLocal : GERADORVAR IDENTIFICADOR ;
 estadoGerado : ( INICIAL | FINAL )? GERADORANON NUM ;

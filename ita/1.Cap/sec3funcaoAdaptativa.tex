@@ -4,45 +4,44 @@
 Chamadas de funções adaptativas podem afetar a topologia do espaço de regras do autômato durante o processo de reconhecimento de uma cadeia de símbolos de entrada. Para suportar a declaração de funções adaptativas, a linguagem LUBA deverá oferecer recursos para a especificação de ações de consulta, de remoção e de inserção. Na gramática LUBA, a produção do não-terminal \naoTerminal{declaracao} se altera com a nova alternativa \naoTerminal{decFuncao}:
 
 \begin{lstlisting}[style=antlr]
-declaracao : decRegra | decFuncao ;
-
-   decFuncao : idFuncao
-   	ABBL seqConsultas? seqRemocoes? seqInsercoes? FEBL ;
+<<UbaParser::declaração de função adaptativa>>=
+decFuncao : idFuncao
+	ABBL
+	seqConsultas?
+	seqRemocoes?
+	seqInsercoes?
+	FEBL
+	;
 \end{lstlisting}
 
 \noindent
 Por conseguinte, a declaração de uma função adaptativa tem início com a sua identificação seguida de um bloco de sequências de ações adaptativas, delimitado por um par de marcadores (no nível léxico, tratam-se doa sinal de abre/fecha-chaves, respectivamente). Dentro do bloco da função, opcionalmente listam-se as sequências de consultas, remoções e inserções. A sequência de consultas tem a forma estabelecida pelo não-terminal \naoTerminal{seqConsultas}:
 
 \begin{lstlisting}[style=antlr]
-seqConsultas : CONSULTAS acaoConsulta* ;
-
-   acaoConsulta : BARRA padraoRegra BARRA ;
+<<UbaParser::ações de consulta>>=
+seqConsultas : CONSULTAS acaoConsulta*;
+    acaoConsulta : BARRA cfa? padraoRegra cfp? BARRA ;
 \end{lstlisting}
 
 No nível léxico, a palavra-reservada \terminal{consultas} marca o começo de uma sequência de ações de consulta, denotadas por um padrão de regra (no estilo de expressões regulares). Um formato semelhante se aplica às ações de remoção e de inserção, alterando-se apenas a palavra-reservada. Por exemplo, a seguinte declaração de ações adaptativas na função \funcao{fx} complementa a classe de dispositivos \uba{Exemplo2}:
 
 \begin{lstlisting}
-uba Exemplo2 {
-   fx => (>q1, a) -> q1
-   (q1, ) -> q2
-   (q2, ) -> !q3
-   <!-- função adaptativa -->
-   fx {
-      consultas
-      / ( @x, )-> q2 /
-      / ( q2, )-> @y /
-      remocoes
-      / ( @x, ) -> q2 /
-      / ( q2, ) -> @y /
-      insercoes
-      / ( @x, b ) -> ^0 /
-      / ( ^0, b ) -> ^1 /
-      / ( ^1,   ) -> q2 /
-      / ( q2,   ) -> ^2 /
-      / ( ^2, c ) -> ^3 /
-      / ( ^3, c ) -> ^4 /
-      / ( ^4, c ) -> @y /
-   }
+<<Exemplo2::especificação da função adaptativa>>=
+fx {
+    consultas
+    / ( @x, )-> q2 /
+    / ( q2, )-> @y /
+    remoções
+    / ( @x, ) -> q2 /
+    / ( q2, ) -> @y /
+    inserções
+    / ( @x, b ) -> ^0 /
+    / ( ^0, b ) -> ^1 /
+    / ( ^1,   ) -> q2 /
+    / ( q2,   ) -> ^2 /
+    / ( ^2, c ) -> ^3 /
+    / ( ^3, c ) -> ^4 /
+    / ( ^4, c ) -> @y /
 }
 \end{lstlisting}
 
@@ -53,19 +52,25 @@ Mas qual é o efeito da realização das ações adaptativas que constituem o co
 Ações de consulta fazem uso de padrões para identificar regras de transição que exibem determinadas propriedades durante a operação do autômato. O formato típico do padrão de uma regra em ações de consulta é, essencialmente, uma par constituído pela configuração do autômato em um determinado instante de operação (estado corrente/símbolo de entrada) e o correspondente estado seguinte. O padrão de símbolo de entrada (opcional no padrão de configuração) consiste apenas do seu identificador:
 
 \begin{lstlisting}[style=antlr]
-padraoRegra : padraoConfig SETA padraoDestino ;
-
-   padraoConfig :
-      ABPAR padraoOrigem VIRGULA padraoSimbolo? FEPAR ;
-
-      padraoSimbolo : IDENTIFICADOR ;
-
-      padraoOrigem : padraoEstado ;
-
-      padraoDestino : padraoEstado ;
-
-         padraoEstado :
-            estadoLocal | estadoInstancia | estadoGerado ;
+<<UbaParser::padrão de regra>>=
+padraoRegra
+    : padraoTransicao
+    ;
+padraoTransicao
+    : padraoConfig SETA padraoDestino
+    ;
+padraoConfig
+    : ABPAR padraoOrigem VIRGULA padraoEstimulo? FEPAR
+    ;
+padraoDestino
+    : padraoEstado | padraoTransicao
+    ;
+padraoOrigem
+    : padraoEstado
+    ;
+padraoEstado
+    : estadoLocal | estadoGerado | estadoInstancia
+    ;
 \end{lstlisting}
 
 \noindent
@@ -78,9 +83,13 @@ Uma vez estabelecidos os valores da variáveis locais \estado{x} e \estado{y}, c
 As ações de consulta identificam um subconjunto das regras do autômato durante um momento de operação. É sobre este subconjunto que as ações de remoção atuam. Os seus efeitos consistem da eliminação de regras de acordo com um padrão que segue o mesmo formato daquelas de consulta:
 
 \begin{lstlisting}[style=antlr]
-seqRemocoes : REMOCOES acaoRemocao*;
-
-   acaoRemocao : BARRA padraoRegra BARRA ;
+<<UbaParser::ações de remoção>>=
+seqRemocoes
+    : REMOCOES acaoRemocao*
+    ;
+acaoRemocao
+    : BARRA cfa? padraoRegra cfp? BARRA
+    ;
 \end{lstlisting}
 
 \noindent
@@ -96,9 +105,13 @@ A execução da próxima ação de remoção, elimina a transição entre os est
 \label{sec:acao:insercao}
 
 \begin{lstlisting}[style=antlr]
-seqInsercoes : REMOCOES acaoInsercao*;
-
-   acaoInsercao : BARRA padraoRegra BARRA ;
+<<UbaParser::ações de inserção>>=
+seqInsercoes
+    : INSERCOES acaoInsercao *
+    ;
+acaoInsercao
+    : BARRA cfa? padraoRegra cfp? BARRA
+    ;
 \end{lstlisting}
 
 Finalmente, a ação adaptativa \acao{/(@x,b)->^1/} é realizada no contexto de inserção. O efeito de ações de inserção é o de adicionar regras de transição no espaço de regras do autômato. Um dos recursos oferecidos para a realização de tais ações é o mecanismo de geração de identificadores, denotado pelo símbolo \lstinline|^|. Por exemplo, a execução da primeira ação de inserção faz o mecanismo de geração adicionar um novo estado no autômato \instancia{a2} automaticamente. Para efeitos de legibilidade, o novo estado é gerado com o prefixo \estado{g}. Assim, quando se completa esta ação de inserção, a instância \instancia{a2} modifica-se para uma forma como aquela graficamente representada na Fig.~\ref{fig-cenario-Exemplo2-1-cfa-a3-manual}.
