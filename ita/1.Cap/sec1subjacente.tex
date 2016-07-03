@@ -19,20 +19,24 @@ Estes elementos conceituais já são suficientes para o projeto inicial da gram�
 A primeira regra de produção da gramática LUBA define o não-terminal \naoTerminal{uba} com a seguinte estrutura. No nível léxico, a palavra-reservada \terminal{uba} é seguida pelo identificador da nova classe de autômatos e, entre um par de abre/fecha-chaves, lista-se uma sequência (possivelmente vazia) de declarações de regras de transição. Na linguagem ANTLR4, o não-terminal de cada regra de produção é separado da sua definição por um \terminal{:} e as regras de produção, propriamente ditas, são separadas por um \terminal{;}. Assim, a regra para se especificar uma nova classe de autômatos \terminal{uba} fica:
 
 \begin{lstlisting}[style=antlr]
-<<UbaParser.g4>>=
-uba : UBA idClasse ABBL declaracao* FEBL ;
-	declaracao : decRegra ;
-	idClasse : IDENTIFICADOR ;
-    <<UbaParser::declaração de regra>>
+<<UbaParser::seção de declarações de regras>>=
+luba : UBA idClasse ABBL declaracao* FEBL ;
+declaracao : decRegra | decFuncao | decMetodo ;
+idClasse : IDENTIFICADOR ;
 \end{lstlisting}
 
 Posteriormente a linguagem será estendida para acomodar a declaração de funções adaptativas. A especificação de um autômato subjacente não envolve a chamada de funções adaptativas; é suficiente que se especifique qual o par estado corrente/símbolo de entrada dispara a ocorrência da transição para o estado seguinte. Como parte do projeto da linguagem LUBA (e visando facilitar um pouco a escrita das especificações), o estado inicial deverá ser prefixado com \lstinline[style=antlr]'>', enquanto que o prefixo para os estados finais será \lstinline[style=antlr]'!'. Assumindo-se estas convenções, escreve-se a produção do não terminal \lstinline[style=antlr]!decRegra! da seguinte forma:
 
 \begin{lstlisting}[style=antlr]
-<<UbaParser::declaração de regra>>=
-decRegra	:
-	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR SETA decEstDst
+<<UbaParser::declaração de regra adaptativa>>=
+decRegra :
+	cfa?
+	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR
+	SETA decEstDst
+	cfp?
 	;
+decEstOrg : INICIAL? idEstado ;
+decEstDst : FINAL? idEstado ;
 \end{lstlisting}
 
 \noindent

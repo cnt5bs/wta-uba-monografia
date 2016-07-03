@@ -1,0 +1,72 @@
+
+\begin{lstlisting}[style=antlr]
+<<UbaParser.g4>>=
+parser grammar UbaParser;
+options { tokenVocab=UbaLexer; }
+
+<<UbaParser::seção de declarações de regras>>
+
+<<UbaParser::declaração de regra adaptativa>>
+
+idEstado : IDENTIFICADOR ;
+idSimbolo : IDENTIFICADOR ;
+idFuncao : IDENTIFICADOR ;
+
+cfa : idFuncao FANT ;
+cfp : FPOS idFuncao ;
+
+// Declaração de função adaptativa
+decFuncao : idFuncao
+	ABBL
+	seqConsultas?
+	seqRemocoes?
+	seqInsercoes?
+	FEBL
+	;
+seqConsultas : CONSULTAS acaoConsulta*;
+seqRemocoes : REMOCOES acaoRemocao*;
+seqInsercoes : INSERCOES acaoInsercao*;
+
+acaoConsulta : BARRA cfa? padraoRegra cfp? BARRA ;
+acaoRemocao : BARRA cfa? padraoRegra cfp? BARRA ;
+acaoInsercao : BARRA cfa? padraoRegra cfp? BARRA ;
+
+padraoRegra : padraoTransicao ;
+padraoTransicao : padraoConfig SETA padraoDestino ;
+padraoConfig
+	: ABPAR
+	padraoOrigem VIRGULA padraoEstimulo?
+	FEPAR
+	;
+padraoDestino
+	: padraoEstado
+	| padraoTransicao
+	;
+padraoOrigem
+	: padraoEstado
+	;
+padraoEstado
+	: estadoLocal
+	| estadoGerado
+	| estadoInstancia
+	;
+
+estadoLocal : GERADORVAR IDENTIFICADOR ;
+estadoGerado : ( INICIAL | FINAL )? GERADORANON NUM ;
+estadoInstancia : ( INICIAL | FINAL )? idEstado ;
+padraoEstimulo : IDENTIFICADOR ;
+
+// Declaração de método
+decMetodo : idFuncao ABPAR param? FEPAR ABBL instrucao* FEBL ;
+param : IDENTIFICADOR ;
+instrucao : instanciacao | mensagem ;
+instanciacao : automatoId atribuicao mensagem ;
+automatoId : IDENTIFICADOR ;
+atribuicao : IGUAL ;
+mensagem : automatoId ativacao ( operacaoInstanciacao | operacaoNormal );
+ativacao : PONTO ;
+operacaoInstanciacao : NEW arg* ;
+operacaoNormal : operacaoId arg* ;
+arg : ABPAR (LITERAL VIRGULA? )* FEPAR ;
+operacaoId : IDENTIFICADOR ;
+\end{lstlisting}
