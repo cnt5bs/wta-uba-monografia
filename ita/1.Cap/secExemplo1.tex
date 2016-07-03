@@ -1,0 +1,56 @@
+
+%%% Restante do código do exemplo
+
+\begin{lstlisting}
+<<apl1exemplo.groovy>>=
+package cenario
+def exec = new uba.exec.ExecucaoDot()
+<<apl1exemplo::pasta de destino das figuras>>
+<<apl1exemplo::instanciação de uma Uba>>
+<<apl1exemplo::cadeia aabc>>
+<<apl1exemplo::cadeia vazia>>
+<<apl1exemplo::cadeia a>>
+<<apl1exemplo::cadeia ab>>
+println "FIM exemplo1"
+\end{lstlisting}
+
+\begin{lstlisting}
+<<apl1exemplo::pasta de destino das figuras>>=
+exec.pastaFig = "/home/italo/edu/Atividade/monografia/wta-uba/work/italo-git/exemplo1/"
+\end{lstlisting}
+
+\begin{lstlisting}
+<<apl1exemplo::instanciação de uma Uba>>=
+def d1 = new cenario.Exemplo1()
+<<apl1exemplo::cadeia aabc>>=
+//d1.iniciar()
+d1.iniciar( exec )
+cadeia = "a.a.b.c"
+print "Analisando ($d1.corrente, $cadeia) = "
+println d1.processar( cadeia )
+\end{lstlisting}
+
+\begin{lstlisting}
+<<apl1exemplo::cadeia vazia>>=
+exec = new uba.exec.Execucao()
+d1.iniciar(exec)
+cadeia = ""
+print "Analisando ($d1.corrente, $cadeia) = "
+println d1.processar( cadeia )
+\end{lstlisting}
+
+\begin{lstlisting}
+<<apl1exemplo::cadeia a>>=
+d1.iniciar(exec)
+cadeia = "a"
+print "Analisando ($d1.corrente, $cadeia) = "
+println d1.processar( cadeia )
+\end{lstlisting}
+
+\begin{lstlisting}
+<<apl1exemplo::cadeia ab>>=
+d1.iniciar(exec)
+cadeia = "a.b"
+print "Analisando ($d1.corrente, $cadeia) = "
+println d1.processar( cadeia )
+\end{lstlisting}

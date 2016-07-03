@@ -1,3 +1,7 @@
+
+
+
+
 \section{Autômato Subjacente}
 \label{sec:isv:subjacente}
 
@@ -15,25 +19,17 @@ Estes elementos conceituais já são suficientes para o projeto inicial da gram�
 A primeira regra de produção da gramática LUBA define o não-terminal \naoTerminal{uba} com a seguinte estrutura. No nível léxico, a palavra-reservada \terminal{uba} é seguida pelo identificador da nova classe de autômatos e, entre um par de abre/fecha-chaves, lista-se uma sequência (possivelmente vazia) de declarações de regras de transição. Na linguagem ANTLR4, o não-terminal de cada regra de produção é separado da sua definição por um \terminal{:} e as regras de produção, propriamente ditas, são separadas por um \terminal{;}. Assim, a regra para se especificar uma nova classe de autômatos \terminal{uba} fica:
 
 \begin{lstlisting}[style=antlr]
-uba : UBA idClasse ABBL declaracao* FEBL ;
-
-	declaracao : decRegra ;
-
-	idClasse : IDENTIFICADOR ;
-\end{lstlisting}
-
-\begin{lstlisting}[style=antlr]
 <<UbaParser.g4>>=
 uba : UBA idClasse ABBL declaracao* FEBL ;
-
 	declaracao : decRegra ;
-
 	idClasse : IDENTIFICADOR ;
+    <<UbaParser::declaração de regra>>
 \end{lstlisting}
 
 Posteriormente a linguagem será estendida para acomodar a declaração de funções adaptativas. A especificação de um autômato subjacente não envolve a chamada de funções adaptativas; é suficiente que se especifique qual o par estado corrente/símbolo de entrada dispara a ocorrência da transição para o estado seguinte. Como parte do projeto da linguagem LUBA (e visando facilitar um pouco a escrita das especificações), o estado inicial deverá ser prefixado com \lstinline[style=antlr]'>', enquanto que o prefixo para os estados finais será \lstinline[style=antlr]'!'. Assumindo-se estas convenções, escreve-se a produção do não terminal \lstinline[style=antlr]!decRegra! da seguinte forma:
 
 \begin{lstlisting}[style=antlr]
+<<UbaParser::declaração de regra>>=
 decRegra	:
 	ABPAR decEstOrg VIRGULA idSimbolo? FEPAR SETA decEstDst
 	;
@@ -45,6 +41,7 @@ Observa-se que a produção para o não-terminal \lstinline[style=antlr]!decRegr
 Como um primeiro exemplo, a especificação do modelo de um autômato subjacente nos moldes daquele sugerido pelo diagrama mostrado na Fig~\ref{fig-regra-tradicional-uxf} tem a forma:
 
 \begin{lstlisting}
+<<exemplo1.uba>>=
 uba Exemplo1 {
 	( >q1, a ) -> q1
 	( q1, b ) -> q2
@@ -56,11 +53,12 @@ uba Exemplo1 {
 A criação de uma instância \uba{a1} da classe \uba{Exemplo1} é escrita da seguinte forma:
 
 \begin{lstlisting}
-a1 = new Exemplo1()
+<<apl1exemplo::instanciação de uma Uba>>=
+def d1 = new cenario.Exemplo1()
 \end{lstlisting}
 
 \noindent
-Na Fig~\ref{fig-cenario-Exemplo1-0-delta} encontra-se uma representação visual da topologia no autômato imediatamenta após a sua instanciação. O estado inicial é \estado{q1} (indicado por uma seta de entrada de estado) e, a partir dele, encontra-se uma auto-transição rotulada com o símbolo \simbolo{a}. Além dela, outra transição conduz ao estado \estado{q2}, um estado interno, na ocorrência de um símbolo \simbolo{b} na cadeia de entrada. O estado \estado{q3} é final e encontra-se conectado ao estado \estado{q2} por uma transição que depende do simbolo \simbolo{c} para ocorrer. Neste mesmo diagrama, o estado \estado{q1} encontra-se destacado: ele é o estado corrente do autômato recém instanciado. Instâncias do tipo \lstinline!Exemplo1! reconhecem as cadeias da linguagem denotada pela expressão regular $\mathbf{a^*bc}$, considerando-se o alfabeto $\Sigma=\{a, b, c\}$.
+Na Fig~\ref{fig-cenario-Exemplo1-0-delta.png} encontra-se uma representação visual da topologia do autômato imediatamenta após a sua instanciação. O estado inicial é \estado{q1} (indicado por uma seta de entrada de estado) e, a partir dele, encontra-se uma auto-transição rotulada com o símbolo \simbolo{a}. Além dela, outra transição conduz ao estado \estado{q2}, um estado interno, na ocorrência de um símbolo \simbolo{b} na cadeia de entrada. O estado \estado{q3} é final e encontra-se conectado ao estado \estado{q2} por uma transição que depende do simbolo \simbolo{c} para ocorrer. Neste mesmo diagrama, o estado \estado{q1} encontra-se destacado: ele é o estado corrente do autômato recém instanciado. Instâncias do tipo \lstinline!Exemplo1! reconhecem as cadeias da linguagem denotada pela expressão regular $\mathbf{a^*bc}$, considerando-se o alfabeto $\Sigma=\{a, b, c\}$.
 
 	\figLatHere[0.35]{\itaPastaFig}{fig-cenario-Exemplo1-0-delta.png}{Diagrama de estados de uma instância de \lstinline{Exemplo1} antes de entrar em operação. Em particular, o estado \estado{q1} é inicial e corrente, enquanto o estado \estado{q2} é interno e \estado{q3}, final.}
 
@@ -100,4 +98,5 @@ Agora, qual significado terá à ocorrência do símbolo \lstinline|a|? Correspo
 No caso do $\mathit{Exemplo1}$, a função de transição $\delta$ contém três pares de elementos, cada par correspondendo a uma regra de transição. A linguagem reconhecida por autômatos da classe \lstinline!Exemplo1! contém todas as cadeias com a forma especificada pela expressão $\mathbf{a^*bc}$.
 
 A proxima seção introduz o suporte à descrição de funções adaptativas na linguagem LUBA.
+
 
