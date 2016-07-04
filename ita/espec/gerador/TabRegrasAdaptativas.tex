@@ -1,0 +1,39 @@
+# TabRegrasAdaptativas {-}
+
+\begin{lstlisting}
+<<TabRegrasAdaptativas.groovy>>=
+package gerador
+
+class TabRegrasAdaptativas {
+
+    TabRegrasAdaptativas() {
+        tabela = [:]
+        i = 1
+    }
+    def tabela
+    def i
+
+    def incorporar( cfa, origem, estimulo, destino, cfp ) {
+        def nova = new Transicao();
+        nova.id = i
+        nova.cfa = cfa
+        nova.origem = origem
+        nova.estimulo = estimulo
+        nova.destino = destino
+        nova.cfp = cfp
+        tabela[ nova.id ] = nova
+        i++
+    }
+
+    def regrasAdaptativas() {
+        tabela.collect { i, r ->
+            "$i : ['$r.cfa', ['$r.origem', '$r.estimulo', '$r.destino'], '$r.cfp']"
+        }
+    }
+
+}
+
+
+
+\end{lstlisting}
+

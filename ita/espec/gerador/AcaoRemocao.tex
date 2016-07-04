@@ -1,0 +1,70 @@
+# AcaoRemocao {-}
+
+\begin{lstlisting}
+<<AcaoRemocao.groovy>>=
+package gerador
+
+class AcaoRemocao {
+
+    AcaoRemocao() {
+        consultaCondicao = []
+    }
+    def consultaCondicao
+    def consultaVinculacao
+    def corpo
+
+    def fechar( fa, cfa='', cfp='' ) {
+        def txt = """
+            retirar += regras.findAll { i, r ->
+            def padrao = r[1].join(\":\")
+            padrao.replaceAll(/>|!/, \"\") ==~  /${consultaCondicao.join(':')}/
+            }// ação de remoção
+        """.stripMargin()
+        corpo = [txt]
+        //
+        //        corpo << "retirar += regras.findAll { i, r ->"
+        //        corpo << "r[1].join(\":\") ==~  /${consultaCondicao.join(':')}/"
+        //        corpo << "}// ação de remoção \n"
+        fa.adicionarRemocao( this )
+    }
+
+    def condicaoLocal( estado ) {
+        if( estado == "") {
+            consultaCondicao << ".*"
+        }
+        else {
+            consultaCondicao << "\$$estado"
+        }
+    }
+
+    def condicao( estado, primeiro, fim ) {
+        consultaCondicao << "$estado"
+    }
+
+    def vincular( x, y ) {
+    }
+
+    def AcaoRemocao( id, instrucao) {
+        super(id, instrucao);
+    }
+
+    @Override
+    def executar( automato,  tabLocal) {
+        def acaoEspecifica = tabLocal.definir(acao);
+        def remocaoLst = []
+        for (def t : automato.tabTransicoes.tabTransicoes.values()) {
+            String l = t.instrucao;
+            if (t.instrucao.matches(acaoEspecifica)) {
+                remocaoLst.add(t);
+            }
+        }
+        for (def t : remocaoLst) {
+            automato.tabTransicoes.remover(t);
+        }
+        return automato.tabTransicoes;
+    }
+
+}
+
+\end{lstlisting}
+

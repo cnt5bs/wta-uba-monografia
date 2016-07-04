@@ -1,0 +1,56 @@
+# UbaDot {-}
+
+\begin{lstlisting}
+<<UbaDot.groovy>>=
+package uba.dot
+
+class UbaDot {
+
+    def iniciarDot() {
+        novoGrupo = []
+    }
+
+    def finaisDot( sep = " " ) {
+        if( finais ) finais.sort().join( sep )
+        else ""
+    }
+
+    def internosDot( sep = " ") {
+        def internos = estados - finais
+        if( internos ) {
+            def txt = ""
+            txt += (internos . findAll { !(it =~ /^g/) }).sort().join( sep )
+            txt += ";"
+        }
+        else ""
+    }
+
+    def geradosDot( sep = " " ) {
+        def txt = ""
+        novoGrupo.each { lista ->
+            if( lista ) txt += "{ rank=same ${lista.join( " ")} } \n"
+        }
+        txt
+    }
+
+    def agruparDot( lista ) {
+        def estados = lista()
+        if( estados ) "{ rank=same $estados } "
+        else ""
+    }
+
+    def grupoMarcar() {
+        estadosAnteriores = estados
+    }
+
+    def grupoGerar( ) {
+        novoGrupo << estados - estadosAnteriores
+    }
+    def novoGrupo = []
+    def estadosAnteriores
+
+}
+
+
+
+\end{lstlisting}

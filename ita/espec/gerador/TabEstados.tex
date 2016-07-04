@@ -1,0 +1,73 @@
+# TabEstados {-}
+
+\begin{lstlisting}
+<<TabEstados.groovy>>=
+package gerador
+
+enum Tipo {
+    ESTADO
+};
+
+enum Escopo {
+    INSTANCIA, LOCAL
+};
+
+class TabEstados {
+
+    TabEstados() {
+        tab = [:]
+    }
+
+    def incorporar( idEstado,  t,  e,  i,  f) {
+        def novo = new Estado()
+        novo.with {
+            id = idEstado
+            tipo = t
+            escopo = e
+            inicial = i
+            terminal = f
+        }
+        tab[novo.id] = novo
+        return novo
+    }
+    def tab
+
+    void inicial(String idEstado) {
+        Estado e = tab.get(idEstado);
+        e.inicial = true;
+    }
+
+    void terminal(String idEstado) {
+        Estado e = tab.get(idEstado);
+        e.terminal = true;
+    }
+
+    boolean ehFinal(String idEstado) {
+        Estado e = this.tab.get(idEstado);
+        return e.terminal;
+    }
+
+    def estado(idEstado) {
+        return tab.get(idEstado);
+    }
+
+    def estados() {
+        return tab.keySet().collect { "'$it'"}
+    }
+
+    def inicial() {
+        def e = tab.find {k,v -> v.inicial}
+        if( e ) return "'${e.value.id}'"
+        ""
+    }
+
+    def finais() {
+        def e = tab.findAll {k,v -> v.terminal}
+        return e.values().collect { "'$it.id'"}
+    }
+}
+\end{lstlisting}
+
+
+
+

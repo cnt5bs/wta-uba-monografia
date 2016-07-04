@@ -26,9 +26,10 @@ luba : UBA idClasse ABBL declaracao* FEBL ;
 De forma mecânica, a ferramenta ANTLR4 produz o código do analisador sintático. A cada não-terminal da gramática processada, ele gera um par de métodos de entrada e de saída (do não-terminal). O corpo destes métodos é que devem implementar o modelo semântico da linguagem LUBA. Assim, par-e-par com o não-terminal \naoTerminal{luba}, existem os métodos \codigo{enterLuba()} e \codigo{exitLuba()}. Por uma decisão de projeto, apenas o primeiro método será utilizado para instanciar um novo objeto (semântico) da classe \codigo{Uba}:
 
 \begin{lstlisting}
+<<GeradorUba::ação semântica 'luba'>>=
 @Override
 public void enterLuba(UbaParser.LubaContext ctx) {
-   novaUba = new gerador.Uba()
+    novaUba = new gerador.Uba()
 }
 def novaUba // variável que referencia a "nova" uba
 \end{lstlisting}
@@ -49,23 +50,24 @@ decRegra :
 \end{lstlisting}
 
 \begin{lstlisting}
+<<GeradorUba::ação semântica 'decRegra'>>=
 @Override
 public void exitDecRegra(UbaParser.DecRegraContext ctx) {
-   def cfa = ""
-   if (ctx.cfa()) {
+    def cfa = ""
+    if (ctx.cfa()) {
         cfa = ctx.cfa().idFuncao().getText()
-   }
-   def origem = ctx.decEstOrg().idEstado().getText()
-   def estimulo = ""
-   if (ctx.idSimbolo()) {
+    }
+    def origem = ctx.decEstOrg().idEstado().getText()
+    def estimulo = ""
+    if (ctx.idSimbolo()) {
         estimulo = ctx.idSimbolo().getText()
-   }
-   def destino = ctx.decEstDst().idEstado().getText()
-   def cfp = ""
-   if (ctx.cfp()) {
+    }
+    def destino = ctx.decEstDst().idEstado().getText()
+    def cfp = ""
+    if (ctx.cfp()) {
         cfp = ctx.cfp().idFuncao().getText()
-   }
-   novaUba.incorporarRegraAdaptativa(cfa, origem, estimulo, destino, cfp)
+    }
+    novaUba.incorporarRegraAdaptativa(cfa, origem, estimulo, destino, cfp)
 }
 \end{lstlisting}
 
@@ -104,18 +106,19 @@ decFuncao : idFuncao
 \end{lstlisting}
 
 \begin{lstlisting}
+<<GeradorUba::ação semântica 'decFuncao'>>=
 @Override
 public void enterDecFuncao(UbaParser.DecFuncaoContext ctx) {
-   funcaoAdaptativa = new gerador.FuncaoAdaptativa()
-   def funcaoId = ctx.idFuncao().getText()
-   funcaoAdaptativa.cabecalho( funcaoId )
+    funcaoAdaptativa = new gerador.FuncaoAdaptativa()
+    def funcaoId = ctx.idFuncao().getText()
+    funcaoAdaptativa.cabecalho( funcaoId )
 }
 def funcaoAdaptativa
 
 @Override
 public void exitDecFuncao(UbaParser.DecFuncaoContext ctx) {
-   funcaoAdaptativa.encerrar()
-   novaUba.incorporarFuncao(funcaoAdaptativa)
+    funcaoAdaptativa.encerrar()
+    novaUba.incorporarFuncao(funcaoAdaptativa)
 }
 \end{lstlisting}
 
@@ -138,11 +141,25 @@ acaoConsulta : BARRA padraoRegra BARRA ;
 \end{lstlisting}
 
 \begin{lstlisting}
+<<GeradorUba::ação semântica 'acaoConsulta'>>=
 @Override
 public void enterAcaoConsulta(UbaParser.AcaoConsultaContext ctx) {
-   acao = new gerador.AcaoConsulta()
+    acao = new gerador.AcaoConsulta()
 }
 def acao
+
+@Override
+public void exitAcaoConsulta(UbaParser.AcaoConsultaContext ctx) {
+    def cfa = ""
+    if (ctx.cfa()) {
+       cfa = ctx.cfa().idFuncao().getText()
+    }
+    def cfp = ""
+    if (ctx.cfp()) {
+        cfp = ctx.cfp().idFuncao().getText()
+    }
+    acao.fechar( funcaoAdaptativa, cfa, cfp )
+}
 \end{lstlisting}
 
 \subsection{Geração de Ações de Remoção}
@@ -188,17 +205,15 @@ estadoInstancia : ( INICIAL | FINAL )? idEstado ;
 \end{lstlisting}
 
 \begin{lstlisting}
+<<GeradorUba::ação semântica 'estadoInstancia'>>=
 @Override
 public void exitEstadoInstancia(UbaParser.EstadoInstanciaContext ctx) {
-   def estadoId = ctx.idEstado().getText();
-   novaUba.incorporarEstado(estadoId);
-   if (ctx.INICIAL()) {
-        novaUba.inicial(estadoId)
-   }
-   if (ctx.FINAL()) {
-        novaUba.terminal(estadoId);
-   }
-   estadoInstancia = estadoId
+    def estadoId = ctx.idEstado().getText();
+    def primeiro = false
+    if (ctx.INICIAL()) primeiro = true
+    def fim = false
+    if (ctx.FINAL()) fim = true
+    acao.condicao( estadoId, primeiro, fim )
 }
 \end{lstlisting}
 

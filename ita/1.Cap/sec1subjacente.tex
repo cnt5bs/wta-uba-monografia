@@ -1,7 +1,4 @@
 
-
-
-
 \section{Autômato Subjacente}
 \label{sec:isv:subjacente}
 
@@ -45,7 +42,7 @@ Observa-se que a produção para o não-terminal \lstinline[style=antlr]!decRegr
 Como um primeiro exemplo, a especificação do modelo de um autômato subjacente nos moldes daquele sugerido pelo diagrama mostrado na Fig~\ref{fig-regra-tradicional-uxf} tem a forma:
 
 \begin{lstlisting}
-<<exemplo1.uba>>=
+<<Exemplo1.uba>>=
 uba Exemplo1 {
 	( >q1, a ) -> q1
 	( q1, b ) -> q2
@@ -58,7 +55,7 @@ A criação de uma instância \uba{a1} da classe \uba{Exemplo1} é escrita da se
 
 \begin{lstlisting}
 <<apl1exemplo::instanciação de uma Uba>>=
-def d1 = new cenario.Exemplo1()
+def d1 = new demo.Exemplo1()
 \end{lstlisting}
 
 \noindent

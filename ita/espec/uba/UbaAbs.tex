@@ -1,0 +1,51 @@
+# UbaAbs {-}
+
+\begin{lstlisting}[style=java]
+<<UbaAbs.groovy>>=
+package uba
+
+@Mixin(uba.dot.UbaDot)
+class UbaAbs {
+
+    def processar( cadeia ) {
+        if( ! execucao ) execucao = new uba.exec.ExecucaoDot()
+        execucao.reconhecer( this, cadeia )
+    }
+
+    def iniciar() {
+        correnteAnterior = ""
+        corrente = inicial
+        g = estados.size()+1
+    }
+
+    def iniciar( novo ) {
+        iniciar()
+        execucao = novo
+    }
+    def execucao
+
+    def g( i, x=false ) {
+        def gerado = "g"+(g+i)
+        if( x ) finais << gerado
+        gerado
+    }
+
+    def estado( e, primeiro = false, fim=false) {
+        if( primeiro ) inicial = e
+        if( fim ) finais << e
+        e
+    }
+
+    def estados
+    def inicial
+    def finais
+    def regras
+    def corrente
+    def correnteAnterior
+    def g
+}
+
+
+
+
+\end{lstlisting}

@@ -1,0 +1,31 @@
+# main {-}
+
+\begin{lstlisting}[style=java]
+<<main.groovy>>=
+package uba.ramos
+
+a = new uba.ramos.AutomatoAdaptativo()
+a.iniciar()
+
+println a.regras
+
+s = new Reconhecimento()
+
+def verificar( a, q, simb ) {
+    println "Move de $q com $simb ? "
+    s.seguintes( a, q, simb )
+}
+
+assert ["q1"] == verificar( a, "q1", "a" )
+assert ["g4"] == verificar( a, "q1", "b" )
+assert ["g5"] == verificar( a, "g4", "b" )
+assert [] == verificar( a, "g5", "c" )
+
+//a = new cenario.Exemplo1()
+//a.iniciar()
+//println a.finais
+//println uba.ramos.Reconhecimento.calcularFinais( a )
+
+
+
+\end{lstlisting}

@@ -1,0 +1,75 @@
+# Uba {-}
+
+\begin{lstlisting}
+<<Uba.groovy>>=
+package gerador
+
+class Uba {
+
+    Uba() {
+        tabRegrasAdaptativas = new TabRegrasAdaptativas()
+        tabEstados = new TabEstados()
+        tabFuncoes = new TabFuncoesAdaptativas()
+    }
+    def nome
+    def tabEstados
+    def tabRegrasAdaptativas
+    def tabFuncoes
+
+    def incorporarEstado( id ) {
+        return tabEstados.incorporar( id, Tipo.ESTADO, Escopo.INSTANCIA, false, false )
+    }
+
+    def inicial( id ) {
+        tabEstados.inicial( id )
+    }
+
+    def terminal( id ) {
+        tabEstados.terminal( id )
+    }
+
+    def estado( id ) {
+        tabEstados.estado( id )
+    }
+
+    def incorporarRegraAdaptativa(cfa, origem, estimulo, destino, cfp) {
+        tabRegrasAdaptativas.incorporar(cfa, origem, estimulo, destino, cfp)
+    }
+
+    def incorporarAcao( id,  instrucao ) {
+        tabFuncoes.incorporarAcao(id, instrucao, this)
+    }
+
+    def incorporarFuncao( funcaoAdaptativa ) {
+        tabFuncoes.incorporarFuncao(funcaoAdaptativa)
+    }
+
+    def gerarPrograma( nomePrg ) {
+        def programa="""\
+// GERADO AUTOMATICAMENTE PELO gerador.Uba
+package demo
+
+class $nome extends uba.UbaAbs {
+
+    def iniciar() {\n\
+        estados = ${tabEstados.estados()}
+        inicial = ${tabEstados.inicial()}
+        finais = ${tabEstados.finais()}
+        regras = ${tabRegrasAdaptativas.regrasAdaptativas()}
+        super.iniciar()
+    }
+
+    ${tabFuncoes.funcoes()}
+}
+        """.stripMargin()
+
+        print("Gerando $nomePrg ...")
+        def arq = new File(nomePrg)
+        arq.write( programa )
+        println( "pronto!")
+    }
+}
+\end{lstlisting}
+
+
+

@@ -1,0 +1,75 @@
+# FuncaoAdaptativa {-}
+
+\begin{lstlisting}
+<<FuncaoAdaptativa.groovy>>=
+package gerador
+
+class FuncaoAdaptativa {
+
+    FuncaoAdaptativa() {
+        locais = []
+        acoesConsulta = []
+        acoesRemocao = []
+        acoesInsercao = []
+        maiorG = 0
+    }
+    def id
+    def locais
+    def acoesConsulta
+    def acoesRemocao
+    def acoesInsercao
+    def maiorG
+    def corpo
+
+    def cabecalho( id ) {
+        this.id = id
+    }
+
+    def encerrar() {
+        corpo = []
+        corpo << "def ${id}() {"
+        locais.each { corpo << "def $it" }
+        corpo << "// Consultas..."
+        acoesConsulta.each { corpo += it.corpo }
+        corpo << "// Remoções..."
+        corpo << "def retirar = [:]"
+        acoesRemocao.each { corpo += it.corpo }
+        corpo << "def restantes = regras - retirar"
+        corpo << "// Inserções..."
+        corpo << "regras = [:]"
+        corpo << "def t = 1"
+        corpo << "restantes.each { i, r -> regras[t] = r; t++ }"
+        corpo << "//---"
+        acoesInsercao.each { corpo += it.corpo }
+        corpo << "g = g + ${maiorG+1}"
+        //        locais.each { v -> corpo << "println $v" }
+        corpo << "}\n\n"
+    }
+
+
+
+    def atualizarG( estado ) {
+        if( maiorG < estado ) maiorG = estado
+    }
+
+    def adicionarLocal( estado ) {
+        if( ! (estado in locais) ) {
+            locais << estado
+        }
+    }
+
+    def adicionarConsulta( acao ) {
+        acoesConsulta << acao
+    }
+
+    def adicionarRemocao( acao ) {
+        acoesRemocao << acao
+    }
+
+    def adicionarInsercao( acao ) {
+        acoesInsercao << acao
+    }
+}
+\end{lstlisting}
+
+

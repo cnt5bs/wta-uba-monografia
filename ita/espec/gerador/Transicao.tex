@@ -1,0 +1,23 @@
+# Transicao {-}
+
+\begin{lstlisting}
+<<Transicao.groovy>>=
+package gerador
+
+public class Transicao {
+
+    String id;
+    String cfa;
+    String origem;
+    String estimulo;
+    String destino;
+    String cfp;
+
+    def markdown() {
+        String t = String.format("%s|%s|%s|%s|%s|%s", id, cfa, origem, estimulo, destino, cfp);
+        return t;
+    }
+}
+
+\end{lstlisting}
+

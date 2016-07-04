@@ -1,0 +1,30 @@
+# GeradorUba {-}
+
+\begin{lstlisting}
+<<UbaExcecao.groovy>>=
+
+package gerador.gram
+
+class UbaExcecao extends Exception {
+
+    UbaExcecao() {
+    }
+
+    UbaExcecao(String message) {
+        super(message)
+    }
+
+    UbaExcecao(String message, Throwable cause) {
+        super(message, cause)
+    }
+
+    UbaExcecao(Throwable cause) {
+        super(cause)
+    }
+
+    UbaExcecao( message,  cause,  enableSuppression,  writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}
+
+\end{lstlisting}

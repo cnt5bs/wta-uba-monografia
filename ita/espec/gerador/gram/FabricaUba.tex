@@ -1,0 +1,40 @@
+# FabricaUba {-}
+
+\begin{lstlisting}[style=java]
+<<FabricaUba.groovy>>=
+package gerador.gram
+
+import java.io.IOException
+import org.antlr.v4.runtime.ANTLRFileStream
+import org.antlr.v4.runtime.CharStream
+import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.TokenStream
+import org.antlr.v4.runtime.tree.ParseTree
+import org.antlr.v4.runtime.tree.ParseTreeWalker
+
+class FabricaUba {
+
+    def gerarPrograma(especificacaoUba, nomePrg ) throws UbaExcecao {
+        try {
+            def leitor = new ANTLRFileStream(especificacaoUba)
+            def lexico = new gerador.gram.antlr4.UbaLexer((CharStream) leitor)
+            def atomos = new CommonTokenStream(lexico)
+            def sintatico = new gerador.gram.antlr4.UbaParser(atomos)
+            def arvore = sintatico.luba()
+            sintatico.removeErrorListeners()
+            sintatico.addErrorListener(new UbaErrorListener());
+            def inspetor = new ParseTreeWalker()
+            def semantico = new GeradorUba()
+            inspetor.walk(semantico, arvore)
+            semantico.novaUba.gerarPrograma( nomePrg )
+        } catch (IOException e) {
+            println("Rejeitado")
+            throw new UbaExcecao("Erro sintático", e)
+        } catch (IllegalArgumentException e) {
+            println(e.getMessage())
+            throw new UbaExcecao("Erro sintático", e)
+        }
+    }
+}
+
+\end{lstlisting}

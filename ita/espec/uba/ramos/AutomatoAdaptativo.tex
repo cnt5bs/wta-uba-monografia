@@ -1,0 +1,46 @@
+# AutomatoAdaptativo {-}
+
+\begin{lstlisting}[style=java]
+<<AutomatoAdaptativo.groovy>>=
+package uba.ramos
+
+class AutomatoAdaptativo {
+    def estados
+    def inicial
+    def finais
+    def regras
+    def corrente
+    def g
+
+    def iniciar() {
+        estados = ['q1', 'q2', 'q3']
+        inicial = 'q1'
+        finais = ['q1', 'q3']
+        g = estados.size()+1
+        corrente = inicial
+        regras = [1 : ['fx', ['q1', 'a', 'q1'], ''], 2 : ['', ['q1', '', 'q2'], ''], 3 : ['', ['q2', '', 'q3'], '']]
+
+        regras =  [1:['fx', ['q1', 'a', 'q1'], ''], 2:['', ['q1', 'b', 'g4'], ''], 3:['', ['g4', 'b', 'g5'], ''], 4:['', ['g5', '' , 'q2'], ''], 5:['', ['q2', '', 'g6'], ''], 6:['', ['g6', 'c', 'g7'], ''], 7:['', ['g7', 'c', 'g8'], ''], 8:['', ['g8', 'c', 'q3'], '']]
+
+        regras = [1:['fx', ['q1', 'a', 'q1'], ''], 2:['', ['q1', 'b', 'g4'], ''], 3:['', ['g4', 'b', 'g5'], ''], 4:['', ['g6', 'c', 'g7'], ''], 5:['', ['g7', 'c', 'g8'], ''], 6:['', ['g8', 'c', 'q3'], ''], 7:['', ['g5', 'b', 'g9'], ''], 8:['', ['g9', 'b', 'g10'], ''], 9:['', ['g10', '', 'q2'], ''], 10:['', ['q2', '', 'g11'], ''], 11:['', ['g11', 'c', 'g12'], ''], 12:['', ['g12', 'c', 'g13'], ''], 13:['', ['g13', 'c', 'g6'],'' ]]
+
+        estados = []
+        regras.each { i, r -> estados += [r[1][0], r[1][2]]}
+        estados = estados.unique { a, b -> a <=> b }
+
+    }
+
+    def clonar() {
+        def clone = new AutomatoAdaptativo()
+        clone.estados = estados
+        clone.inicial = inicial
+        clone.finais = finais
+        clone.g = g
+        clone.corrente = corrente
+        clone.regras = regras
+        return clone
+    }
+}
+
+
+\end{lstlisting}

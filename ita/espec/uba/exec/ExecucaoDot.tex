@@ -1,0 +1,61 @@
+# ExecucaoDot {-}
+
+\begin{lstlisting}[style=java]
+<<ExecucaoDot.groovy>>=
+package uba.exec
+
+class ExecucaoDot extends Execucao {
+
+    def dot = new uba.dot.DigramaUbaDot()
+    def static u = 0
+    def prefixo="fig-"
+    def pastaFig = "/"
+
+    def nome( uba ) {
+        uba.class.name.replaceAll("\\.", "-")
+    }
+
+    def reconhecer( uba, cadeia ) {
+        uba.iniciarDot()
+        dot.gerarDot("$pastaFig$prefixo${nome(uba)}-$u-delta.png", uba, cadeia, false)
+        dot.gerarDot( "$pastaFig$prefixo${nome(uba)}-$u-estados.png", uba, cadeia, true )
+        u++
+
+        def reconheceu = true
+        cadeia.split("\\.").each { simb ->
+            def habilitadas = calcularTransicoesHabilitadas( uba, simb )
+
+            chamarFuncoesAdaptativas( uba, habilitadas, CFA.ANTERIOR )
+
+            uba.grupoMarcar()
+            recalcularEstados( uba, simb )
+            uba.grupoGerar( )
+            dot.gerarDot("$pastaFig$prefixo${nome(uba)}-${u}-cfa.png", uba, simb, false)
+
+            reconheceu = realizarTransicao( uba, simb, reconheceu )
+            chamarFuncoesAdaptativas( uba, habilitadas, CFA.POSTERIOR )
+
+            uba.grupoMarcar()
+            recalcularEstados( uba, simb )
+            uba.grupoGerar( )
+            dot.gerarDot("$pastaFig$prefixo${nome(uba)}-${u}-cfp.png", uba, simb, false)
+
+            dot.gerarDot( "$pastaFig$prefixo${nome(uba)}-$u-estados.png", uba, simb, true )
+            u++
+        }
+        uba.finais = uba.ramos.Reconhecimento.calcularFinais( uba )
+        ( reconheceu && uba.corrente in uba.finais ) ? true : false
+    }
+
+
+    def chamarFuncoesAdaptativas( uba, habilitadas, k ) {
+        habilitadas.each { i->
+            try {
+                // Pode provocar efeito colateral em 'regras'
+                uba."${i.value[k]}"()
+            } catch(Exception e) {
+            }
+        }
+    }
+}
+

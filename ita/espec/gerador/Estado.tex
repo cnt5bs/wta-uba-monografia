@@ -1,0 +1,23 @@
+# Estado {-}
+
+\begin{lstlisting}
+<<Estado.groovy>>=
+package gerador
+
+class Estado {
+
+    def id
+    def tipo
+    def escopo
+    def inicial
+    def terminal
+
+    def markdown() {
+        return String.format("%s|%s|%s", id, inicial, terminal);
+    }
+}
+
+\end{lstlisting}
+
+
+

@@ -1,0 +1,142 @@
+# GeradorUba {-}
+
+\begin{lstlisting}[style=java]
+<<GeradorUba.groovy>>=
+package gerador.gram
+
+import gerador.gram.antlr4.UbaParser
+import gerador.gram.antlr4.UbaParserBaseListener
+
+class GeradorUba extends UbaParserBaseListener {
+    <<GeradorUba::ação semântica 'luba'>>
+    <<GeradorUba::ação semântica 'decRegra'>>
+    <<GeradorUba::ação semântica 'decFuncao'>>
+    <<GeradorUba::ação semântica 'acaoConsulta'>>
+    <<GeradorUba::ação semântica 'estadoInstancia'>>
+
+    @Override
+    public void exitIdClasse(UbaParser.IdClasseContext ctx) {
+        novaUba.nome = ctx.getText()
+    }
+
+    @Override
+    public void exitDecEstOrg(UbaParser.DecEstOrgContext ctx) {
+        def idEstado = ctx.idEstado().getText()
+        def  ogm = novaUba.estado(idEstado)
+        if (ogm == null) {
+            ogm = novaUba.incorporarEstado(idEstado)
+        }
+        if (ctx.INICIAL()) {
+            novaUba.inicial(idEstado);
+        }
+    }
+
+    @Override
+    public void exitDecEstDst(UbaParser.DecEstDstContext ctx) {
+        def idEstado = ctx.idEstado().getText()
+        def dst = novaUba.estado(idEstado)
+        if (dst == null) {
+            dst = novaUba.incorporarEstado(idEstado)
+        }
+        if (ctx.FINAL()) {
+            novaUba.terminal(idEstado)
+        }
+    }
+
+
+
+    @Override
+    public void enterAcaoRemocao(UbaParser.AcaoRemocaoContext ctx) {
+        acao = new gerador.AcaoRemocao()
+    }
+
+    @Override
+    public void exitAcaoRemocao(UbaParser.AcaoRemocaoContext ctx) {
+        def cfa = ""
+        if (ctx.cfa()) {
+            cfa = ctx.cfa().idFuncao().getText()
+        }
+        def cfp = ""
+        if (ctx.cfp()) {
+            cfp = ctx.cfp().idFuncao().getText()
+        }
+        acao.fechar( funcaoAdaptativa, cfa, cfp )    }
+
+    @Override
+    public void enterAcaoInsercao(UbaParser.AcaoInsercaoContext ctx) {
+        acao = new gerador.AcaoInsercao(funcaoAdaptativa)
+    }
+
+    @Override
+    public void exitAcaoInsercao(UbaParser.AcaoInsercaoContext ctx) {
+        def cfa = ""
+        if (ctx.cfa()) {
+            cfa = ctx.cfa().idFuncao().getText()
+        }
+        def cfp = ""
+        if (ctx.cfp()) {
+            cfp = ctx.cfp().idFuncao().getText()
+        }
+        acao.fechar( funcaoAdaptativa, cfa, cfp )
+    }
+
+    @Override
+    public void exitPadraoConfig(UbaParser.PadraoConfigContext ctx) {
+        if (ctx.padraoEstimulo()) {
+            acao.condicao( ctx.padraoEstimulo().getText(), false, false )
+        } else {
+            acao.condicaoLocal( "" )
+        }
+    }
+
+    @Override
+    public void exitPadraoOrigem(UbaParser.PadraoOrigemContext ctx){
+        if( estadoLocal ) {
+            funcaoAdaptativa.adicionarLocal( estadoLocal )
+            acao.condicaoLocal( estadoLocal )
+            acao.vincular( estadoLocal, "ogm" )
+        }
+        //        if( estadoInstancia ) {
+        //            acao.condicao( estadoInstancia )
+        //        }
+        estadoLocal = null
+        estadoGerado = null
+        estadoInstancia = null
+    }
+    def estadoLocal
+    def estadoGerado
+    def estadoInstancia
+
+    @Override
+    public void exitPadraoDestino(UbaParser.PadraoDestinoContext ctx) {
+        if( estadoLocal ) {
+            funcaoAdaptativa.adicionarLocal( estadoLocal )
+            acao.condicaoLocal( estadoLocal )
+            acao.vincular( estadoLocal, "dst" )
+        }
+        if( estadoInstancia ) {
+            acao.condicao( estadoInstancia )
+        }
+        estadoLocal = null
+        estadoGerado = null
+        estadoInstancia = null
+    }
+
+    @Override
+    public void exitEstadoLocal(UbaParser.EstadoLocalContext ctx) {
+        def e = ctx.IDENTIFICADOR().getText()
+        estadoLocal = e
+    }
+
+    @Override
+    public void exitEstadoGerado(UbaParser.EstadoGeradoContext ctx) {
+        if (ctx.NUM()) {
+            def ehFinal = false
+            if (ctx.FINAL()) {
+                ehFinal = true
+            }
+            estadoGerado = acao.condicaoGerado( ctx.NUM().getText().toInteger(), ehFinal )
+        }
+    }
+}
+\end{lstlisting}

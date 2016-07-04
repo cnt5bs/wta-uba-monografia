@@ -9,6 +9,7 @@
    \figTop[0.6]{\itaPastaFig}{fig-uba-dcl}{Diagrama de classes UML revelando a estrutura de classes do para utilização da máquina virtual UBA da classe \uml{Exemplo1}.}
 
 \begin{lstlisting}
+<<Execucao::reconhecimento de cadeias>>=
 def reconhecer( uba, cadeia ) {
     def reconheceu = true
     cadeia.split("\\.").each { simb ->
@@ -25,10 +26,11 @@ def reconhecer( uba, cadeia ) {
 
 
 \begin{lstlisting}
-def calcularTransicoesHabilitadas( uba, simb ){
-  uba.regras.findAll { i, r ->
-      r[1][0] == uba.corrente && r[1][1] == simb
-  }
+<<Execucao::condição de habilitação de regra>>=
+def calcularTransicoesHabilitadas( uba, simb ) {
+    uba.regras.findAll { i, r ->
+        r[1][0] == uba.corrente && r[1][1] == simb
+    }
 }
 \end{lstlisting}
 
@@ -56,22 +58,24 @@ Assim, ao processar o quarto símbolo da cadeia de entrada, $b$, o autômato \ub
 \label{sec:isv:execucao-cfa}
 
 \begin{lstlisting}
+<<Execucao::chamada de função adaptativa>>=
 def chamarFuncoesAdaptativas( uba, habilitadas, k ) {
-  habilitadas.each { i->
-      try {
-          // Pode provocar efeito colateral em 'regras'
-          uba."${i.value[k]}"()
-      } catch(Exception e) {
-      }
-  }
+    habilitadas.each { i->
+        try {
+            // Pode provocar efeito colateral em 'regras'
+            uba."${i.value[k]}"()
+        } catch(Exception e) {
+        }
+    }
 }
 \end{lstlisting}
 
 \begin{lstlisting}
+<<Execucao::recálculo de estados>>=
 def recalcularEstados( uba, simb ) {
-  uba.estados = []
-  uba.regras.each { i, r -> uba.estados += [r[1][0], r[1][2]]}
-  uba.estados = uba.estados.unique { a, b -> a <=> b }
+    uba.estados = []
+    uba.regras.each { i, r -> uba.estados += [r[1][0], r[1][2]]}
+    uba.estados = uba.estados.unique { a, b -> a <=> b }
 }
 \end{lstlisting}
 
@@ -79,34 +83,36 @@ def recalcularEstados( uba, simb ) {
 \label{sec:isv:execucao-transicao}
 
 \begin{lstlisting}
+<<Execucao::transição de estado>>=
 def realizarTransicao( uba, simb, reconheceu ) {
-  if( reconheceu ) {
-      def seguintes = uba.ramos.Reconhecimento.seguintes( uba, uba.corrente, simb )
-      if( seguintes ) {
-          uba.correnteAnterior = uba.corrente
-          uba.corrente = seguintes[ 0 ]
-      }
-      else reconheceu = false
-  }
-  reconheceu
+    if( reconheceu ) {
+        def seguintes = uba.ramos.Reconhecimento.seguintes( uba, uba.corrente, simb )
+        if( seguintes ) {
+            uba.correnteAnterior = uba.corrente
+            uba.corrente = seguintes[ 0 ]
+        }
+        else reconheceu = false
+    }
+    reconheceu
 }
 \end{lstlisting}
 
 \subsection{Transição de Estado Não-Adaptativo}
 
 \begin{lstlisting}
+<<Reconhecimento::cálculo das transições seguintes>>=
 def static seguintes( uba, corrente, simb ) {
-   def fechoCorrente = fechamento( uba, [corrente] )
-   def seguintes = []
-   fechoCorrente.find { q ->
+    def fechoCorrente = fechamento( uba, [corrente] )
+        def seguintes = []
+        fechoCorrente.find { q ->
         uba.regras.find { i, r ->
             if( q == r[1][0] && r[1][1] == simb ) {
                 seguintes = fechamento( uba, [r[1][2]] )
                 return true
             }
         }
-   }
-   seguintes
+    }
+    seguintes
 }
 \end{lstlisting}
 
@@ -115,25 +121,26 @@ def static seguintes( uba, corrente, simb ) {
 Baseado em Ramos et al~\cite{ramos:2009:lftmi}:
 
 \begin{lstlisting}
-   def static fechamento( uba, p ) {
-      def s = p
-      def fecho = [:]
-      uba.estados.each { e-> fecho[ e ] = 'fora' }
-      p.each { e-> fecho[ e ] = 'dentro' }
-      while( ! s.isEmpty() ) {
-           def u = s.pop()
-           uba.regras.each { i, r ->
-               if( u == r[1][0] && '' == r[1][1] ) {
-                   def v = r[1][2]
-                   if( fecho[ v ] == 'fora' ) {
-                       fecho[ v ] = 'dentro'
-                       s << v
-                   }
-               }
-           }
-      }
-      fecho*.key.findAll { fecho[it] == 'dentro' }
-   }
+<<Reconhecimento::cálculo do fechamento transitivo>>=
+def static fechamento( uba, p ) {
+    def s = p
+    def fecho = [:]
+    uba.estados.each { e-> fecho[ e ] = 'fora' }
+    p.each { e-> fecho[ e ] = 'dentro' }
+    while( ! s.isEmpty() ) {
+        def u = s.pop()
+        uba.regras.each { i, r ->
+            if( u == r[1][0] && '' == r[1][1] ) {
+                def v = r[1][2]
+                if( fecho[ v ] == 'fora' ) {
+                    fecho[ v ] = 'dentro'
+                    s << v
+                }
+            }
+        }
+    }
+    fecho*.key.findAll { fecho[it] == 'dentro' }
+}
 \end{lstlisting}
 
 
@@ -141,6 +148,7 @@ Baseado em Ramos et al~\cite{ramos:2009:lftmi}:
 \subsection{Cálculo dos Estados Finais}
 
 \begin{lstlisting}
+<<Reconhecimento::cálculo dos estados finais>>=
 def static calcularFinais( uba ) {
     def r = uba.estados.inject( uba.finais ) { c, e ->
         def fecho = fechamento( uba, [e] )

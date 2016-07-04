@@ -1,0 +1,41 @@
+# TabFuncoesAdaptativas {-}
+
+\begin{lstlisting}
+<<TabFuncoesAdaptativas.groovy>>=
+package gerador
+
+class TabFuncoesAdaptativas {
+
+    TabFuncoesAdaptativas() {
+        tabFuncoes = [:]
+    }
+    def tabFuncoes;
+
+    def incorporarAcao( idFuncao,  instrucao,  automato) {
+        def fa = tabFuncoes.get(idFuncao);
+        if (!tabFuncoes.containsKey(idFuncao)) {
+            fa = new FuncaoAdaptativa();
+            fa.id = idFuncao;
+            fa.associar(automato);
+            tabFuncoes.put(fa.id, fa);
+        }
+        fa.incorporar(instrucao);
+    }
+
+    def incorporarFuncao( funcaoAdaptativa ) {
+        tabFuncoes[funcaoAdaptativa.id] = funcaoAdaptativa
+    }
+
+    def funcoes() {
+        def corpo = ""
+        tabFuncoes.each { k, fa ->
+            corpo += fa.corpo.join("\n")
+        }
+        corpo
+    }
+}
+
+
+
+\end{lstlisting}
+

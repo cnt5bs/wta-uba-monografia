@@ -1,0 +1,81 @@
+# DigramaUbaDot {-}
+
+\begin{lstlisting}[style=java]
+<<DigramaUbaDot.groovy>>=
+package uba.dot
+
+class DigramaUbaDot {
+
+    def gerarDot( saida, uba, simb, estados ) {
+        def startTxt = """node [shape = point, color=white, fontcolor=white]; "start";"""
+        def transicaoInicialTxt = ""
+        if( uba.inicial) {
+            transicaoInicialTxt = """"start" -> $uba.inicial;"""
+        }
+        def correnteTxt = ""
+        def start2corrente = ""
+        if( uba.corrente ) {
+            correnteTxt = """$uba.corrente [color=blue, penwidth = 3];"""
+            start2corrente = """${uba.correnteAnterior?:"start"} -> $uba.corrente [label="${simb}", color=red, penwidth = 3];"""
+        }
+        def txt = """\
+            digraph uba {
+            graph [ nodesep="0.3"];
+            pack=true;
+            ratio=compress;
+            rankdir=LR;
+            $startTxt
+            node [style="rounded,filled", color=black, fillcolor=lightgray, shape = "box", peripheries=2, fontcolor=black];
+               ${uba.finaisDot(";")}
+            node [peripheries=1];
+                ${uba.internosDot(";")}
+
+            ${uba.agruparDot() {uba.finaisDot() } }
+            ${uba.agruparDot() {uba.internosDot() } }
+            ${uba.geradosDot() }
+        """
+
+        def dotCmd = "dot"
+        if( estados ) {
+            txt += """\
+                $transicaoInicialTxt
+                $correnteTxt
+            """
+            uba.regras.each { t, v ->
+                txt += """\
+                    ${v[1][0]} -> ${v[1][2]} [label="${v[0]}/${v[1][1] ?: "&epsilon;"}/${v[2]}", penwidth = 1, color=lightgray];
+                """
+            }
+            txt += """\
+                $start2corrente
+            """
+        }
+        else {
+            txt += """\
+                $transicaoInicialTxt
+                $correnteTxt
+            """
+            uba.regras.each { t, v ->
+                txt += """\
+                    ${v[1][0]} -> ${v[1][2]} [label="${v[0]}/${v[1][1] ?: "&epsilon;"}/${v[2]}"];
+                """
+            }
+        }
+        txt += """}""".stripMargin()
+
+        println( saida )
+        def arq = new FileWriter(saida+".dot")
+        arq.withWriter { writer ->
+            writer.write(txt)
+        }
+
+        def processo = "$dotCmd -Tpng  ${saida}.dot -o ${saida}".execute()
+        processo.waitFor()
+        //        processo = "xsltproc -o fig/${saida} notugly.xsl ${saida} ".execute()
+        //        processo.waitFor()
+        //        "rm -f ${saida}.dot".execute()
+    }
+}
+
+
+\end{lstlisting}

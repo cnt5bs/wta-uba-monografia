@@ -1,0 +1,57 @@
+# AcaoConsulta {-}
+
+\begin{lstlisting}
+<<AcaoConsulta.groovy>>=
+package gerador
+
+class AcaoConsulta {
+
+    AcaoConsulta() {
+        consultaCondicao = []
+        consultaVinculacao = []
+    }
+    def consultaCondicao
+    def consultaVinculacao
+    def corpo
+
+    def fechar( fa, cfa='', cfp='' ) {
+        corpo = []
+        corpo << "regras.each { i, r -> ( "
+        corpo << "r[1].join(\":\") =~ /${consultaCondicao.join(':')}/"
+        corpo << " ).each { todo, ogm, simb, dst ->"
+        corpo << consultaVinculacao
+        corpo << "} }// ação de consulta \n"
+        fa.adicionarConsulta(this)
+    }
+
+    def AcaoConsulta( id, instrucao ) {
+        super(id, instrucao);
+    }
+
+    def condicaoLocal( estado ) {
+        consultaCondicao << "(.*)"
+    }
+
+    def condicao( estado, primeiro, fim ) {
+        consultaCondicao << "($estado)"
+    }
+
+    def vincular( x, y ) {
+        consultaVinculacao << "$x = $y"
+    }
+
+    @Override
+    def executar( aa,  dicLocal) {
+        for (def t : aa.tabTransicoes.tabTransicoes.values()) {
+            String acaoPadrao = acao.replaceAll("@\\w+", "\\\\w+");
+            String l = t.instrucao;
+            if (t.instrucao.matches(acaoPadrao)) {
+                dicLocal.vincularLocais(t, acao);
+            }
+        }
+        return aa.tabTransicoes;
+    }
+
+}
+
+\end{lstlisting}

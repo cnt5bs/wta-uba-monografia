@@ -1,0 +1,17 @@
+# geradorUbas {-}
+
+\begin{lstlisting}
+<<geradorUbas.groovy>>=
+package cenario
+
+println("*** Gerador de UBAs ***")
+
+def fab = new gerador.gram.FabricaUba()
+
+fab.gerarPrograma("src/cenario/especificacao/Exemplo1.uba", "src/demo/Exemplo1.groovy")
+fab.gerarPrograma("src/cenario/especificacao/exemplo2.uba", "src/demo/Exemplo2.groovy")
+fab.gerarPrograma("src/cenario/especificacao/Aplysia.uba", "src/demo/Aplysia.groovy")
+fab.gerarPrograma("src/cenario/especificacao/ubatg1.uba", "src/demo/ExemploUbaTG1.groovy")
+fab.gerarPrograma("src/cenario/especificacao/ubatg2.uba", "src/demo/ExemploUbaTG2.groovy")
+
+\end{lstlisting}
